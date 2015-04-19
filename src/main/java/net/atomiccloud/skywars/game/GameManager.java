@@ -32,7 +32,7 @@ public class GameManager
 
     private Map<String, Integer> votes = new HashMap<>();
 
-    private Set<String> playersInGame = new HashSet<>();
+    private List<String> playersInGame = new ArrayList<>();
     private Set<String> spectators = new HashSet<>();
 
     BukkitTask currentTask;
@@ -162,7 +162,7 @@ public class GameManager
         return spawnLocations;
     }
 
-    public Set<String> getPlayersInGame()
+    public List<String> getPlayersInGame()
     {
         return playersInGame;
     }

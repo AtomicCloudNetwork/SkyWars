@@ -1,5 +1,5 @@
 name: ACN-Skywars
-version: 1
+version: ${project.version}
 main: net.atomiccloud.skywars.SkyWarsPlugin
 description: acn skywars
 commands:

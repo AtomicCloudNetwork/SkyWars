@@ -1,6 +1,7 @@
 package net.atomiccloud.skywars.listeners;
 
 
+import net.DynamicJk.AtomicCore.Cosmites.Redis;
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;
 import org.bukkit.Bukkit;
@@ -38,13 +39,11 @@ public class DeathListener implements Listener
             plugin.getGameManager().getSpectators().add( e.getEntity().getName() );
             if ( plugin.getGameManager().getPlayersInGame().size() == 1 )
             {
-                for ( String s : plugin.getGameManager().getPlayersInGame() )
-                {
-                    Player p1 = Bukkit.getPlayer( s );
-                    Bukkit.broadcastMessage( plugin.getPrefix() + p1.getName() + " has won the game!" );
-                    plugin.getGameManager().setGameState( GameState.POST_GAME );
-                    Redis.addCoins( p1, 500 );
-                }
+                Player winner = Bukkit.getPlayer( plugin.getGameManager().getPlayersInGame().get( 0 ) );
+                Bukkit.broadcastMessage( plugin.getPrefix() + winner.getName() + " has won the game!" );
+                plugin.getGameManager().setGameState( GameState.POST_GAME );
+                winner.sendMessage( plugin.getPrefix() +"" );
+                Redis.addCoins( winner, 500 );
             } else
             {
                 p.setHealth( 20 );
@@ -55,7 +54,7 @@ public class DeathListener implements Listener
                 for ( String players : plugin.getGameManager().getPlayersInGame() )
                 {
                     Player player = Bukkit.getPlayer( players );
-                    Redis.addCoins( players, 20 );
+                    Redis.addCoins( player, 20 );
                     player.getInventory().addItem( new ItemStack( Material.SPONGE ) );
                 }
             }
