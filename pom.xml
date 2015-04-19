@@ -6,7 +6,7 @@
 
     <groupId>net.atomic-cloud</groupId>
     <artifactId>SkyWars</artifactId>
-    <version>0.31b</version>
+    <version>0.32b</version>
 
     <dependencies>
         <dependency>

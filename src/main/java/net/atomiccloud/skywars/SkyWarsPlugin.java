@@ -37,7 +37,6 @@ public class SkyWarsPlugin extends JavaPlugin
 
         try
         {
-            FileUtils.deleteDirectory( file );
             FileUtils.copyDirectory( des, file );
         } catch ( IOException e )
         {
@@ -67,8 +66,8 @@ public class SkyWarsPlugin extends JavaPlugin
     {
         try
         {
-            FileUtils.deleteDirectory( new File( "/home/thedenmc_gmail_com/SW-1/" + gameManager.getWinningMap()
-                    .toString() ) );
+            FileUtils.deleteDirectory( new File( "/home/thedenmc_gmail_com/SW-1/" +
+                    gameManager.getWinningMap().toString() ) );
         } catch ( IOException e )
         {
             e.printStackTrace();

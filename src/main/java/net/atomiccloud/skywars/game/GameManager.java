@@ -58,6 +58,7 @@ public class GameManager
             votes.put( map.name(), 0 );
         }
         votes.put( "Random", 0 );
+        makeScoreboard();
         World world = Bukkit.getServer().getWorld( "Sw-World1" );
         double x = plugin.getConfig().getDouble( "lobby.x" );
         double y = plugin.getConfig().getDouble( "lobby.y" );
