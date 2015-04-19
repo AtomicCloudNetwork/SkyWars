@@ -1,4 +1,4 @@
-package net.atomiccloud.skywars.timers;
+package net.atomiccloud.skywars.Timers;
 
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;

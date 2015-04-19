@@ -6,16 +6,10 @@ import net.atomiccloud.skywars.game.GameState;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.hanging.HangingBreakByEntityEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class DeathListener implements Listener
@@ -33,6 +27,10 @@ public class DeathListener implements Listener
     {
         if ( plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) )
         {
+            if ( e.getEntity().getLocation().getY() < 0 )
+            {
+                e.getEntity().teleport( plugin.getGameManager().getSpawnLocation() );
+            }
             Player p = e.getEntity();
             p.setHealth( 20 );
             p.setGameMode( GameMode.SPECTATOR );
@@ -63,7 +61,6 @@ public class DeathListener implements Listener
             }
         }
     }
-
 
 
 }

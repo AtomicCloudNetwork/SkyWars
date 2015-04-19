@@ -33,19 +33,19 @@ public class DamageListener implements Listener
     {
         if ( e.getEntity() instanceof Player )
         {
-            if ( !plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) )
+            if ( !plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) ||
+                    plugin.getGameManager().getSpectators().contains( e.getEntity().getName() ) )
             {
                 e.setCancelled( true );
             }
-            
-            if ( plugin.getGameManager().getGameState().equals( GameState.PRE_GAME ) )
+
+            if ( plugin.getGameManager().getGameState().equals( GameState.PRE_GAME ) ||
+                    plugin.getGameManager().getSpectators().contains( e.getEntity().getName() ) )
             {
-                Player p = (Player) e.getEntity();
                 if ( e.getCause().equals( EntityDamageEvent.DamageCause.VOID ) )
                 {
-                    p.teleport( loc );
+                    e.getEntity().teleport( loc );
                 }
-                e.setCancelled( true );
             }
         }
     }

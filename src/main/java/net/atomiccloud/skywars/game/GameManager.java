@@ -1,12 +1,13 @@
 package net.atomiccloud.skywars.game;
 
 import net.atomiccloud.skywars.SkyWarsPlugin;
-import net.atomiccloud.skywars.timers.GameTimer;
-import net.atomiccloud.skywars.timers.LobbyTimer;
-import net.atomiccloud.skywars.timers.RestartTimer;
+import net.atomiccloud.skywars.Timers.GameTimer;
+import net.atomiccloud.skywars.Timers.LobbyTimer;
+import net.atomiccloud.skywars.Timers.RestartTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -19,6 +20,8 @@ public class GameManager
 {
     private GameState gameState;
 
+    private Location spawnLocation;
+
     public List<Location> spawnLocations = new ArrayList<>();
 
     private Scoreboard votesBoard;
@@ -29,12 +32,9 @@ public class GameManager
 
     private Map<String, Integer> votes = new HashMap<>();
 
-    public int lobbyTime = 60;
-
     private Set<String> playersInGame = new HashSet<>();
     private Set<String> spectators = new HashSet<>();
 
-    public int endgameTime = 21;
     BukkitTask currentTask;
 
     private SkyWarsPlugin plugin;
@@ -58,6 +58,11 @@ public class GameManager
             votes.put( map.name(), 0 );
         }
         votes.put( "Random", 0 );
+        World world = Bukkit.getServer().getWorld( "Sw-World1" );
+        double x = plugin.getConfig().getDouble( "lobby.x" );
+        double y = plugin.getConfig().getDouble( "lobby.y" );
+        double z = plugin.getConfig().getDouble( "lobby.z" );
+        spawnLocation = new Location( world, x, y, z );
     }
 
     public GameState getGameState()
@@ -175,5 +180,10 @@ public class GameManager
     public Set<String> getSpectators()
     {
         return spectators;
+    }
+
+    public Location getSpawnLocation()
+    {
+        return spawnLocation;
     }
 }

@@ -16,17 +16,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class JoinListener implements Listener
 {
 
-    private Location spawnLocation;
+    //private Location spawnLocation;
 
     private SkyWarsPlugin plugin;
 
     public JoinListener(SkyWarsPlugin plugin)
     {
-        World world = Bukkit.getServer().getWorld( "Sw-World1" );
-        double x = plugin.getConfig().getDouble( "lobby.x" );
-        double y = plugin.getConfig().getDouble( "lobby.y" );
-        double z = plugin.getConfig().getDouble( "lobby.z" );
-        spawnLocation = new Location( world, x, y, z );
+
         this.plugin = plugin;
     }
 
@@ -35,7 +31,7 @@ public class JoinListener implements Listener
     {
         Player p = e.getPlayer();
         p.setLevel( 0 );
-        p.teleport( spawnLocation );
+        p.teleport( plugin.getGameManager().getSpawnLocation() );
         if ( !plugin.getGameManager().getGameState().equals( GameState.PRE_GAME ) &&
                 !plugin.getGameManager().getGameState().equals( GameState.LOBBY_COUNTDOWN ) )
         {
