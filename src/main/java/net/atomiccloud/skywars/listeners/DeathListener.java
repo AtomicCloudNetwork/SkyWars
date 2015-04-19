@@ -26,12 +26,12 @@ public class DeathListener implements Listener
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e)
     {
+        if ( e.getEntity().getLocation().getY() < 0 )
+        {
+            e.getEntity().teleport( plugin.getConfiguration().getSpawnLocation() );
+        }
         if ( plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) )
         {
-            if ( e.getEntity().getLocation().getY() < 0 )
-            {
-                e.getEntity().teleport( plugin.getGameManager().getSpawnLocation() );
-            }
             Player p = e.getEntity();
             p.setHealth( 20 );
             p.setGameMode( GameMode.SPECTATOR );

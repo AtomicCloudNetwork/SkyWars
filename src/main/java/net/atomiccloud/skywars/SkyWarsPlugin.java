@@ -20,34 +20,42 @@ public class SkyWarsPlugin extends JavaPlugin
     public String prefix = ChatColor.GRAY + "[" + ChatColor.RED + "SkyWars" + ChatColor.GRAY + "] ";
 
     private GameManager gameManager;
-
+    private Config config;
 
     @Override
     public void onEnable()
     {
         plugin = this;
+        saveDefaultConfig();
+        config = new Config( this );
         gameManager = new GameManager( this );
 
         File des = new File( "/home/thedenmc_gmail_com/Sw-World1" );
 
         File file = Bukkit.getWorld( "Sw-World1" ).getWorldFolder();
 
-        Bukkit.getServer().getWorld( "Sw-World1" ).setMonsterSpawnLimit( 0 );
-        Bukkit.getServer().getWorld( "Sw-World1" ).setStorm( false );
-
         try
         {
+            FileUtils.deleteDirectory( file );
             FileUtils.copyDirectory( des, file );
         } catch ( IOException e )
         {
             e.printStackTrace();
         }
 
+        Bukkit.getServer().getWorld( "Sw-World1" ).setMonsterSpawnLimit( 0 );
+        Bukkit.getServer().getWorld( "Sw-World1" ).setStorm( false );
+
         Bukkit.getMessenger().registerOutgoingPluginChannel( this, "BungeeCord" );
-        saveDefaultConfig();
         getCommand( "vote" ).setExecutor( new VoteCommand( this ) );
         getCommand( "skywars" ).setExecutor( new SkyWarsCommand( this ) );
         registerListeners();
+    }
+
+    @Override
+    public void onDisable()
+    {
+        plugin = null;
     }
 
     private void registerListeners()
@@ -60,25 +68,15 @@ public class SkyWarsPlugin extends JavaPlugin
         }
     }
 
-
-    @Override
-    public void onDisable()
-    {
-        try
-        {
-            FileUtils.deleteDirectory( new File( "/home/thedenmc_gmail_com/SW-1/" +
-                    gameManager.getWinningMap().toString() ) );
-        } catch ( IOException e )
-        {
-            e.printStackTrace();
-        }
-    }
-
     public static SkyWarsPlugin getInstance()
     {
         return plugin;
     }
 
+    public Config getConfiguration()
+    {
+        return config;
+    }
 
     public GameManager getGameManager()
     {

@@ -27,7 +27,7 @@ public class PingListener implements Listener
                 e.setMotd( "§aLobby" );
                 break;
             case LOBBY_COUNTDOWN:
-                e.setMotd( "§aLobby" );
+                e.setMotd( "§aCountdown" );
                 break;
             case POST_GAME:
                 e.setMotd( "§4Post Game" );

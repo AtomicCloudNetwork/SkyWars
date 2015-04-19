@@ -1,10 +1,13 @@
 package net.atomiccloud.skywars.timers;
 
 import net.atomiccloud.skywars.SkyWarsPlugin;
+import net.atomiccloud.skywars.game.GameState;
 import net.atomiccloud.skywars.util.BungeeCord;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameTimer extends BukkitRunnable
@@ -69,7 +72,6 @@ public class GameTimer extends BukkitRunnable
                 break;
             case 1:
                 broadcastMessage();
-                Bukkit.getServer().getOnlinePlayers().forEach( BungeeCord::toHub );
                 //BORDER
                 break;
             case 0:
@@ -77,7 +79,14 @@ public class GameTimer extends BukkitRunnable
                 //COSMITES
                 //START TELEPORTER COUNTDOWN
                 //BORDER
-                Bukkit.shutdown();
+                plugin.getGameManager().setGameState( GameState.DEATH_MATCH );
+                for ( int i = 0; i < plugin.getGameManager().getPlayersInGame().size(); i++ )
+                {
+                    Player player = Bukkit.getPlayer( plugin.getGameManager().getPlayersInGame().get( i ) );
+                    player.addPotionEffect( new PotionEffect(
+                            PotionEffectType.DAMAGE_RESISTANCE, 20 * 10, 10, false, false ) );
+                    player.teleport( plugin.getConfiguration().getDeathMatchLocations().get( i ) );
+                }
                 break;
         }
         countdown--;
@@ -87,6 +96,6 @@ public class GameTimer extends BukkitRunnable
     {
         Bukkit.broadcastMessage( countdown == 1 ? plugin.getPrefix() +
                 ChatColor.GOLD + "Game is ending in " + countdown + " second!" :
-                plugin.getPrefix() + ChatColor.GOLD + "Game is ending in " + countdown + " seconds!" );
+                plugin.getPrefix() + ChatColor.GOLD + "Death match starting in " + countdown + " seconds!" );
     }
 }

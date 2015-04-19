@@ -1,13 +1,12 @@
 package net.atomiccloud.skywars.game;
 
 import net.atomiccloud.skywars.SkyWarsPlugin;
+import net.atomiccloud.skywars.timers.DeathMatchTimer;
 import net.atomiccloud.skywars.timers.GameTimer;
 import net.atomiccloud.skywars.timers.LobbyTimer;
 import net.atomiccloud.skywars.timers.RestartTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -19,10 +18,6 @@ import java.util.*;
 public class GameManager
 {
     private GameState gameState;
-
-    private Location spawnLocation;
-
-    public List<Location> spawnLocations = new ArrayList<>();
 
     private Scoreboard votesBoard;
 
@@ -59,11 +54,6 @@ public class GameManager
         }
         votes.put( "Random", 0 );
         makeScoreboard();
-        World world = Bukkit.getServer().getWorld( "Sw-World1" );
-        double x = plugin.getConfig().getDouble( "lobby.x" );
-        double y = plugin.getConfig().getDouble( "lobby.y" );
-        double z = plugin.getConfig().getDouble( "lobby.z" );
-        spawnLocation = new Location( world, x, y, z );
     }
 
     public GameState getGameState()
@@ -73,23 +63,25 @@ public class GameManager
 
     public void setGameState(GameState gameState)
     {
+        if ( currentTask != null )
+        {
+            currentTask.cancel();
+            currentTask = null;
+        }
         if ( this.gameState != gameState )
         {
             switch ( gameState )
             {
-                case PRE_GAME:
-                    if ( currentTask != null )
-                    {
-                        currentTask.cancel();
-                    }
+                case LOBBY_COUNTDOWN:
                     currentTask = new LobbyTimer( plugin ).runTaskTimer( plugin, 0, 20 );
                     break;
                 case IN_GAME:
-                    currentTask.cancel();
                     currentTask = new GameTimer( plugin ).runTaskTimer( plugin, 0, 20 );
                     break;
+                case DEATH_MATCH:
+                    currentTask = new DeathMatchTimer( plugin ).runTaskTimer( plugin, 0, 20 );
+                    break;
                 case POST_GAME:
-                    currentTask.cancel();
                     currentTask = new RestartTimer( plugin ).runTaskTimer( plugin, 0, 20 );
                     break;
             }
@@ -105,16 +97,16 @@ public class GameManager
                 " (&b" + getVotes().get( getMaps()[ 0 ].name() ) + " votes&6)" ) );
         player.sendMessage( ChatColor.translateAlternateColorCodes( '&', "&6&l2. &6" +
                 getMaps()[ 1 ].getName() + " (&b" +
-                getVotes().get( getMaps()[ 1 ].name() ) + "votes&6)" ) );
-        player.sendMessage( ChatColor.translateAlternateColorCodes( '&', "&6&l3. &b" +
-                "Random" + " (&b" + getVotes().get( "Random" ) + " votes&6)" ) );
+                getVotes().get( getMaps()[ 1 ].name() ) + " votes&6)" ) );
+        player.sendMessage( ChatColor.translateAlternateColorCodes( '&', "&6&l3. &2" +
+                "Random" + " &6(&b" + getVotes().get( "Random" ) + " votes&6)" ) );
     }
 
     private void makeScoreboard()
     {
         votesBoard = Bukkit.getScoreboardManager().getNewScoreboard();
 
-        Objective objective = votesBoard.registerNewObjective( "votes", "votes1" );
+        Objective objective = votesBoard.registerNewObjective( "votes", "dummy" );
         objective.setDisplayName( ChatColor.GREEN + "Votes" );
         objective.setDisplaySlot( DisplaySlot.SIDEBAR );
 
@@ -129,16 +121,16 @@ public class GameManager
         switch ( i )
         {
             case 1:
-                votesBoard.getObjective( "votes" ).getScore( ChatColor.GRAY + getMaps()[ 0 ].getName() ).setScore(
-                        votes.get( getMaps()[ 0 ].name() ) );
+                votesBoard.getObjective( "votes" ).getScore(
+                        ChatColor.GRAY + getMaps()[ 0 ].getName() ).setScore( votes.get( getMaps()[ 0 ].name() ) );
                 break;
             case 2:
-                votesBoard.getObjective( "votes" ).getScore( ChatColor.GRAY + getMaps()[ 1 ].getName() ).setScore(
-                        votes.get( getMaps()[ 1 ].name() ) );
+                votesBoard.getObjective( "votes" ).getScore(
+                        ChatColor.GRAY + getMaps()[ 1 ].getName() ).setScore( votes.get( getMaps()[ 1 ].name() ) );
                 break;
             case 3:
-                votesBoard.getObjective( "votes" ).getScore( ChatColor.AQUA + "Random" ).setScore(
-                        votes.get( "Random" ) );
+                votesBoard.getObjective( "votes" ).getScore(
+                        ChatColor.AQUA + "Random" ).setScore( votes.get( "Random" ) );
                 break;
         }
     }
@@ -156,11 +148,6 @@ public class GameManager
     public Map<String, Integer> getVotes()
     {
         return votes;
-    }
-
-    public List<Location> getSpawnLocations()
-    {
-        return spawnLocations;
     }
 
     public List<String> getPlayersInGame()
@@ -181,10 +168,5 @@ public class GameManager
     public Set<String> getSpectators()
     {
         return spectators;
-    }
-
-    public Location getSpawnLocation()
-    {
-        return spawnLocation;
     }
 }

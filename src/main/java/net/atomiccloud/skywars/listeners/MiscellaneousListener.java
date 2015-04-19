@@ -45,6 +45,7 @@ public class MiscellaneousListener implements Listener
         e.setCancelled( true );
     }
 
+    @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent event)
     {
         if ( !plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) )

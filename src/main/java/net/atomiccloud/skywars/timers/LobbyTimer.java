@@ -3,17 +3,16 @@ package net.atomiccloud.skywars.timers;
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;
 import net.atomiccloud.skywars.game.Maps;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.apache.commons.io.FileUtils;
+import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Scoreboard;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
@@ -85,8 +84,9 @@ public class LobbyTimer extends BukkitRunnable
 
     private void broadcastMessage()
     {
-        Bukkit.broadcastMessage( countdown == 1 ? "&7[&cSkyWars&7] &aGame starting in " + countdown + " second."
-                : "&7[&cSkyWars&7] &aGame starting in " + countdown + " seconds." );
+        Bukkit.broadcastMessage( ChatColor.translateAlternateColorCodes( '&',
+                countdown == 1 ? "&7[&cSkyWars&7] &aGame starting in " + countdown + " second."
+                        : "&7[&cSkyWars&7] &aGame starting in " + countdown + " seconds." ) );
     }
 
     private void playNotePling()
@@ -113,45 +113,36 @@ public class LobbyTimer extends BukkitRunnable
         Bukkit.broadcastMessage( plugin.getPrefix() + plugin.getGameManager().getWinningMap().getName() + " by "
                 + plugin.getGameManager().getWinningMap().getAuthor() + " won voting!" );
 
-        /*File file = new File( "/home/thedenmc_gmail_com/SW-1/" +
+        File file = new File( "/home/thedenmc_gmail_com/SW-1/" +
                 plugin.getGameManager().getWinningMap().toString() );
         try
         {
             if ( file.mkdir() )
             {
-                FileUtils.copyDirectory( new File( "/home/thedenmc_gmail_com/" + plugin.getGameManager()
-                        .getWinningMap().toString() ), file );
+                FileUtils.copyDirectory( new File( "/home/thedenmc_gmail_com/"
+                        + plugin.getGameManager().getWinningMap().toString() ), file );
 
             }
         } catch ( IOException e )
         {
             e.printStackTrace();
         }
-        Bukkit.createWorld( new WorldCreator( plugin.getGameManager().getWinningMap().toString() ) );*/
-        plugin.getConfig().getStringList(
-                plugin.getGameManager().getWinningMap().toString() + "spawn-locs" ).forEach( this::locationFromString );
+        Bukkit.createWorld( new WorldCreator( plugin.getGameManager().getWinningMap().toString() ) );
+        plugin.getConfiguration().setSpawnLocations( plugin.getGameManager().getWinningMap().toString() );
         //SET GAME SETTINGS
         //Teleportation to Arena!
         Player[] players = Bukkit.getOnlinePlayers().toArray(
                 new Player[ Bukkit.getOnlinePlayers().size() ] );
-        Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         for ( int i = 0; i < Bukkit.getOnlinePlayers().size(); i++ )
         {
             Player player = players[ i ];
-            player.setScoreboard( scoreboard );
-            player.teleport( plugin.getGameManager().getSpawnLocations().get( i ) );
+            player.setScoreboard( Bukkit.getScoreboardManager().getNewScoreboard() );
+            player.teleport( plugin.getConfiguration().getSpawnLocations().get( i ) );
             player.addPotionEffect( new PotionEffect( PotionEffectType.DAMAGE_RESISTANCE, 20, 100 ) );
         }
-        Bukkit.getWorld( "Sw-World1" ).getEntities().stream().filter( entity ->
+        Bukkit.getWorld( "Sw-World1" ).getLivingEntities().stream().filter( entity ->
                 !( entity instanceof Player ) ).forEach( Entity::remove );
     }
 
-    private void locationFromString(String string)
-    {
-        String[] data = string.split( "," );
-        plugin.getGameManager().getSpawnLocations().add( new Location( Bukkit.getWorld( data[ 0 ] ), Double
-                .parseDouble( data[ 1 ] ),
-                Double.parseDouble( data[ 2 ] ), Double.parseDouble( data[ 3 ] ),
-                Float.parseFloat( data[ 4 ] ), Float.parseFloat( data[ 5 ] ) ) );
-    }
+
 }

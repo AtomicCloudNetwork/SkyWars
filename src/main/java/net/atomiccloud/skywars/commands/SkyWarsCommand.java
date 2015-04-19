@@ -42,10 +42,10 @@ public class SkyWarsCommand implements CommandExecutor
                         String.valueOf( p.getLocation().getX() ) + "," +
                         String.valueOf( p.getLocation().getY() ) + "," +
                         String.valueOf( p.getLocation().getZ() ) + "," +
-                        String.valueOf( p.getLocation().getPitch() ) + "," +
-                        String.valueOf( p.getLocation().getYaw() ) );
+                        String.valueOf( p.getLocation().getYaw() ) + "," +
+                        String.valueOf( p.getLocation().getPitch() ) );
                 plugin.getConfig().set( args[ 1 ] + "spawn-locs", strings );
-                plugin.getGameManager().getSpawnLocations().add( p.getLocation() );
+                plugin.getConfiguration().getSpawnLocations().add( p.getLocation() );
                 plugin.saveConfig();
                 p.sendMessage( ChatColor.RED + "Spawn has been set!" );
             } else
@@ -69,7 +69,21 @@ public class SkyWarsCommand implements CommandExecutor
             plugin.getConfig().set( "tier1.y", p.getLocation().getY() );
             plugin.getConfig().set( "tier1.z", p.getLocation().getZ() );
             plugin.saveConfig();
-            p.sendMessage( ChatColor.RED + "NPC spawn has been set!" );
+            p.sendMessage( ChatColor.RED + "NPC spawn has been added!" );
+        }
+        if (args[0].equalsIgnoreCase( "setdeathspawn" )) {
+            List<String> strings = plugin.getConfig().getStringList( "death-match-locs" ) != null
+                    ? plugin.getConfig().getStringList( "death-match-locs" ) : new ArrayList<>();
+            strings.add( p.getLocation().getWorld().getName() + "," +
+                    String.valueOf( p.getLocation().getX() ) + "," +
+                    String.valueOf( p.getLocation().getY() ) + "," +
+                    String.valueOf( p.getLocation().getZ() ) + "," +
+                    String.valueOf( p.getLocation().getYaw() ) + "," +
+                    String.valueOf( p.getLocation().getPitch() ) );
+            plugin.getConfig().set( "death-match-locs", strings );
+            plugin.getConfiguration().getSpawnLocations().add( p.getLocation() );
+            plugin.saveConfig();
+            p.sendMessage( ChatColor.RED + "Death Spawn has been added!" );
         }
         if ( args[ 0 ].equalsIgnoreCase( "setspecspawn" ) )
         {

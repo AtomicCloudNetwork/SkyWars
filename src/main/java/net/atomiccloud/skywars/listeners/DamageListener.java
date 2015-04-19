@@ -15,17 +15,11 @@ public class DamageListener implements Listener
 
     private SkyWarsPlugin plugin;
 
-    private Location loc;
 
     public DamageListener(SkyWarsPlugin plugin)
     {
         this.plugin = plugin;
-        World w = Bukkit.getServer().getWorld(
-                plugin.getConfig().getString( "game" + ".world" ) );
-        double x = plugin.getConfig().getDouble( "game.x" );
-        double y = plugin.getConfig().getDouble( "game.y" );
-        double z = plugin.getConfig().getDouble( "game.z" );
-        loc = new Location( w, x, y, z );
+
     }
 
     @EventHandler
@@ -45,7 +39,7 @@ public class DamageListener implements Listener
             {
                 if ( e.getCause().equals( EntityDamageEvent.DamageCause.VOID ) )
                 {
-                    e.getEntity().teleport( loc );
+                    e.getEntity().teleport( plugin.getConfiguration().getGameLocation() );
                 }
             }
         }

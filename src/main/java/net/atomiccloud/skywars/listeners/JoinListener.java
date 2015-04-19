@@ -16,13 +16,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class JoinListener implements Listener
 {
 
-    //private Location spawnLocation;
-
     private SkyWarsPlugin plugin;
 
     public JoinListener(SkyWarsPlugin plugin)
     {
-
         this.plugin = plugin;
     }
 
@@ -31,9 +28,11 @@ public class JoinListener implements Listener
     {
         Player p = e.getPlayer();
         p.setLevel( 0 );
-        p.teleport( plugin.getGameManager().getSpawnLocation() );
-        if ( !plugin.getGameManager().getGameState().equals( GameState.PRE_GAME ) &&
-                !plugin.getGameManager().getGameState().equals( GameState.LOBBY_COUNTDOWN ) )
+        p.setFoodLevel( 20 );
+        p.getInventory().clear();
+        p.teleport( plugin.getConfiguration().getSpawnLocation() );
+        if ( plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) ||
+                plugin.getGameManager().getGameState().equals( GameState.POST_GAME ) )
         {
             e.setJoinMessage( null );
             p.setGameMode( GameMode.SPECTATOR );
