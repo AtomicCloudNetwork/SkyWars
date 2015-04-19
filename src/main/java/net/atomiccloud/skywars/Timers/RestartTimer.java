@@ -1,4 +1,4 @@
-package net.atomiccloud.skywars.Timers;
+package net.atomiccloud.skywars.timers;
 
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.util.BungeeCord;

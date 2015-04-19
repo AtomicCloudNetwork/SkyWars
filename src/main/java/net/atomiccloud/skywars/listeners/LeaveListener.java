@@ -13,7 +13,8 @@ public class LeaveListener implements Listener
 {
     private SkyWarsPlugin plugin;
 
-    public LeaveListener(SkyWarsPlugin plugin) {
+    public LeaveListener(SkyWarsPlugin plugin)
+    {
         this.plugin = plugin;
     }
 
@@ -24,11 +25,13 @@ public class LeaveListener implements Listener
     }
 
     @EventHandler
-    public void onPlayerKick(PlayerKickEvent event) {
+    public void onPlayerKick(PlayerKickEvent event)
+    {
         handleLeave( event.getPlayer() );
     }
 
-    private void handleLeave(Player player) {
+    private void handleLeave(Player player)
+    {
         if ( plugin.getGameManager().getGameState().equals( GameState.LOBBY_COUNTDOWN ) )
         {
             if ( Bukkit.getServer().getOnlinePlayers().size() <= 1 )
@@ -38,8 +41,8 @@ public class LeaveListener implements Listener
 
             }
         }
-        if (plugin.getGameManager().getPlayersInGame().contains( player.getName() ))
-        plugin.getGameManager().getPlayersInGame().remove( player.getName() );
+        if ( plugin.getGameManager().getPlayersInGame().contains( player.getName() ) )
+            plugin.getGameManager().getPlayersInGame().remove( player.getName() );
         if ( plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) )
         {
             if ( Bukkit.getServer().getOnlinePlayers().size() < 2 )

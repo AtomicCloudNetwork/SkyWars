@@ -1,9 +1,9 @@
 package net.atomiccloud.skywars.game;
 
 import net.atomiccloud.skywars.SkyWarsPlugin;
-import net.atomiccloud.skywars.Timers.GameTimer;
-import net.atomiccloud.skywars.Timers.LobbyTimer;
-import net.atomiccloud.skywars.Timers.RestartTimer;
+import net.atomiccloud.skywars.timers.GameTimer;
+import net.atomiccloud.skywars.timers.LobbyTimer;
+import net.atomiccloud.skywars.timers.RestartTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
