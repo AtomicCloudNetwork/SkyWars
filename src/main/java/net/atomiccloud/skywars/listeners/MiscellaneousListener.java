@@ -15,7 +15,8 @@ public class MiscellaneousListener implements Listener
 
     private SkyWarsPlugin plugin;
 
-    public MiscellaneousListener(SkyWarsPlugin plugin) {
+    public MiscellaneousListener(SkyWarsPlugin plugin)
+    {
         this.plugin = plugin;
     }
 
@@ -44,8 +45,10 @@ public class MiscellaneousListener implements Listener
         e.setCancelled( true );
     }
 
-    public void onFoodLevelChange(FoodLevelChangeEvent event) {
-        if (!plugin.getGameManager().getGameState().equals( GameState.IN_GAME )) {
+    public void onFoodLevelChange(FoodLevelChangeEvent event)
+    {
+        if ( !plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) )
+        {
             event.setCancelled( true );
         }
     }

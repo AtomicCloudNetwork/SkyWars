@@ -17,7 +17,8 @@ public class DamageListener implements Listener
 
     private Location loc;
 
-    public DamageListener(SkyWarsPlugin plugin) {
+    public DamageListener(SkyWarsPlugin plugin)
+    {
         this.plugin = plugin;
         World w = Bukkit.getServer().getWorld(
                 plugin.getConfig().getString( "game" + ".world" ) );
@@ -36,11 +37,8 @@ public class DamageListener implements Listener
             {
                 e.setCancelled( true );
             }
-        }
-
-        if ( plugin.getGameManager().getGameState().equals( GameState.PRE_GAME ) )
-        {
-            if ( e.getEntity() instanceof Player )
+            
+            if ( plugin.getGameManager().getGameState().equals( GameState.PRE_GAME ) )
             {
                 Player p = (Player) e.getEntity();
                 if ( e.getCause().equals( EntityDamageEvent.DamageCause.VOID ) )
@@ -50,7 +48,6 @@ public class DamageListener implements Listener
                 e.setCancelled( true );
             }
         }
-
     }
 
 }

@@ -1,17 +1,19 @@
-package net.atomiccloud.skywars.Timers;
+package net.atomiccloud.skywars.timers;
 
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;
 import net.atomiccloud.skywars.game.Maps;
-import org.apache.commons.io.FileUtils;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Scoreboard;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
@@ -21,7 +23,7 @@ public class LobbyTimer extends BukkitRunnable
 
     private SkyWarsPlugin plugin;
 
-    private int countdown;
+    private int countdown = 60;
 
     public LobbyTimer(SkyWarsPlugin plugin)
     {
@@ -33,149 +35,65 @@ public class LobbyTimer extends BukkitRunnable
     {
         switch ( countdown )
         {
-
             case 50:
-                Bukkit.broadcastMessage( ChatColor.GRAY + "["
-                        + ChatColor.RED + "SkyWars"
-                        + ChatColor.GRAY + "]"
-                        + ChatColor.GREEN
-                        + " Game starting in 50 seconds." );
-                for ( Player players : Bukkit.getServer()
-                        .getOnlinePlayers() )
-                {
-                    players.playSound( players.getLocation(),
-                            Sound.NOTE_PLING, 20, 20 );
-                }
+                broadcastMessage();
+                playNotePling();
                 break;
             case 30:
-                Bukkit.broadcastMessage( ChatColor.GRAY + "["
-                        + ChatColor.RED + "SkyWars"
-                        + ChatColor.GRAY + "]"
-                        + ChatColor.GREEN
-                        + " Game starting in 30 seconds." );
-                for ( Player players : Bukkit.getServer()
-                        .getOnlinePlayers() )
-                {
-                    players.playSound( players.getLocation(),
-                            Sound.NOTE_PLING, 20, 20 );
-                }
+                broadcastMessage();
+                playNotePling();
                 break;
             case 20:
-                Bukkit.broadcastMessage( ChatColor.GRAY + "["
-                        + ChatColor.RED + "SkyWars"
-                        + ChatColor.GRAY + "]"
-                        + ChatColor.GREEN
-                        + " Game starting in 20 seconds." );
-                for ( Player players : Bukkit.getServer()
-                        .getOnlinePlayers() )
-                {
-                    players.playSound( players.getLocation(),
-                            Sound.NOTE_PLING, 20, 20 );
-                }
+                broadcastMessage();
+                playNotePling();
                 break;
             case 10:
-                Bukkit.broadcastMessage( ChatColor.GRAY + "["
-                        + ChatColor.RED + "SkyWars"
-                        + ChatColor.GRAY + "]"
-                        + ChatColor.GREEN
-                        + " Game starting in 10 seconds." );
-                for ( Player players : Bukkit.getServer()
-                        .getOnlinePlayers() )
-                {
-                    players.playSound( players.getLocation(),
-                            Sound.NOTE_PLING, 20, 20 );
-                }
+                broadcastMessage();
+                playNotePling();
                 break;
             case 5:
-                Bukkit.broadcastMessage( ChatColor.GRAY + "["
-                        + ChatColor.RED + "SkyWars"
-                        + ChatColor.GRAY + "]"
-                        + ChatColor.GREEN
-                        + " Game starting in 5 seconds." );
-                for ( Player players : Bukkit.getServer()
-                        .getOnlinePlayers() )
-                {
-                    players.playSound( players.getLocation(),
-                            Sound.NOTE_PLING, 20, 20 );
-                }
+                broadcastMessage();
+                playNotePling();
                 break;
             case 4:
-                Bukkit.broadcastMessage( ChatColor.GRAY + "["
-                        + ChatColor.RED + "SkyWars"
-                        + ChatColor.GRAY + "]"
-                        + ChatColor.GREEN
-                        + " Game starting in 4 seconds." );
-                for ( Player players : Bukkit.getServer()
-                        .getOnlinePlayers() )
-                {
-                    players.playSound( players.getLocation(),
-                            Sound.NOTE_PLING, 20, 20 );
-                }
+                broadcastMessage();
+                playNotePling();
                 break;
             case 3:
-                Bukkit.broadcastMessage( ChatColor.GRAY + "["
-                        + ChatColor.RED + "SkyWars"
-                        + ChatColor.GRAY + "]"
-                        + ChatColor.GREEN
-                        + " Game starting in 3 seconds." );
-                for ( Player players : Bukkit.getServer()
-                        .getOnlinePlayers() )
-                {
-                    players.playSound( players.getLocation(),
-                            Sound.NOTE_PLING, 20, 20 );
-                }
+                broadcastMessage();
+                playNotePling();
                 break;
             case 2:
-                Bukkit.broadcastMessage( ChatColor.GRAY + "["
-                        + ChatColor.RED + "SkyWars"
-                        + ChatColor.GRAY + "]"
-                        + ChatColor.GREEN
-                        + " Game starting in 2 seconds." );
-                for ( Player players : Bukkit.getServer()
-                        .getOnlinePlayers() )
-                {
-                    players.playSound( players.getLocation(),
-                            Sound.NOTE_PLING, 20, 20 );
-                }
-
+                broadcastMessage();
+                playNotePling();
                 break;
             case 1:
-                Bukkit.broadcastMessage( "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" );
-                Bukkit.broadcastMessage( ChatColor.GRAY + "["
-                        + ChatColor.RED + "SkyWars"
-                        + ChatColor.GRAY + "]"
-                        + ChatColor.GREEN
-                        + " Game starting in 1 seconds." );
-                for ( Player players : Bukkit.getServer()
-                        .getOnlinePlayers() )
-                {
-                    players.playSound( players.getLocation(),
-                            Sound.NOTE_PLING, 20, 20 );
-                }
+                broadcastMessage();
+                playNotePling();
                 Bukkit.dispatchCommand( Bukkit.getConsoleSender(), "gamerule doTileDrops true" );
                 break;
             case 0:
-                Bukkit.broadcastMessage( "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" );
-                Bukkit.broadcastMessage( ChatColor.GRAY
-                        + "["
-                        + ChatColor.RED
-                        + "SkyWars"
-                        + ChatColor.GRAY
-                        + "]"
-                        + ChatColor.GREEN
-                        + " Good Luck" );
-
-                for ( Player players : Bukkit.getServer()
-                        .getOnlinePlayers() )
-                {
-                    players.playSound( players.getLocation(),
-                            Sound.NOTE_PLING, 20, 20 );
-                    players.addPotionEffect( new PotionEffect( PotionEffectType.DAMAGE_RESISTANCE, 20, 100 ) );
-                }
-
+                Bukkit.broadcastMessage( ChatColor.translateAlternateColorCodes(
+                        '&', "&7[&cSkyWars&7] &aGood Luck!" ) );
+                playNotePling();
                 handleGameStart();
                 plugin.getGameManager().setGameState( GameState.IN_GAME );
                 break;
+        }
+        countdown--;
+    }
+
+    private void broadcastMessage()
+    {
+        Bukkit.broadcastMessage( countdown == 1 ? "&7[&cSkyWars&7] &aGame starting in " + countdown + " second."
+                : "&7[&cSkyWars&7] &aGame starting in " + countdown + " seconds." );
+    }
+
+    private void playNotePling()
+    {
+        for ( Player players : Bukkit.getOnlinePlayers() )
+        {
+            players.playSound( players.getLocation(), Sound.NOTE_PLING, 20, 20 );
         }
     }
 
@@ -192,10 +110,11 @@ public class LobbyTimer extends BukkitRunnable
                     !map.equals( plugin.getGameManager().getMaps()[ 0 ] )
                             || !map.equals( plugin.getGameManager().getMaps()[ 1 ] ) ).findAny().get() );
         }
-        Bukkit.broadcastMessage( plugin.getGameManager().getWinningMap().getName() + " won voting!" );
+        Bukkit.broadcastMessage( plugin.getPrefix() + plugin.getGameManager().getWinningMap().getName() + " by "
+                + plugin.getGameManager().getWinningMap().getAuthor() + " won voting!" );
 
-        File file = new File( "/home/thedenmc_gmail_com/SW-1/" + plugin.getGameManager().getWinningMap()
-                .toString() );
+        /*File file = new File( "/home/thedenmc_gmail_com/SW-1/" +
+                plugin.getGameManager().getWinningMap().toString() );
         try
         {
             if ( file.mkdir() )
@@ -208,25 +127,23 @@ public class LobbyTimer extends BukkitRunnable
         {
             e.printStackTrace();
         }
-        Bukkit.createWorld( new WorldCreator( plugin.getGameManager().getWinningMap().toString() ) );
-        plugin.getConfig().getStringList( plugin.getGameManager().getWinningMap().toString() +
-                "spawn-locs" )
-                .forEach( this::locationFromString );
+        Bukkit.createWorld( new WorldCreator( plugin.getGameManager().getWinningMap().toString() ) );*/
+        plugin.getConfig().getStringList(
+                plugin.getGameManager().getWinningMap().toString() + "spawn-locs" ).forEach( this::locationFromString );
         //SET GAME SETTINGS
         //Teleportation to Arena!
-        Player[] players = Bukkit.getOnlinePlayers().toArray( new Player[ Bukkit.getOnlinePlayers()
-                .size() ] );
+        Player[] players = Bukkit.getOnlinePlayers().toArray(
+                new Player[ Bukkit.getOnlinePlayers().size() ] );
+        Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         for ( int i = 0; i < Bukkit.getOnlinePlayers().size(); i++ )
         {
             Player player = players[ i ];
-            player.setScoreboard( Bukkit.getScoreboardManager().getNewScoreboard() );
+            player.setScoreboard( scoreboard );
             player.teleport( plugin.getGameManager().getSpawnLocations().get( i ) );
-
-            Bukkit.getServer().getWorld( plugin.getGameManager().getWinningMap().toString() ).setDifficulty(
-                    Difficulty.PEACEFUL );
-            Bukkit.getServer().getWorld( plugin.getGameManager().getWinningMap().toString() ).setDifficulty(
-                    Difficulty.HARD );
+            player.addPotionEffect( new PotionEffect( PotionEffectType.DAMAGE_RESISTANCE, 20, 100 ) );
         }
+        Bukkit.getWorld( "Sw-World1" ).getEntities().stream().filter( entity ->
+                !( entity instanceof Player ) ).forEach( Entity::remove );
     }
 
     private void locationFromString(String string)

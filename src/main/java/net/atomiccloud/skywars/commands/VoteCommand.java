@@ -2,6 +2,7 @@ package net.atomiccloud.skywars.commands;
 
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;
+import net.atomiccloud.skywars.game.Maps;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,7 +27,8 @@ public class VoteCommand implements CommandExecutor
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if ( !plugin.getGameManager().getGameState().equals( GameState.PRE_GAME ) )
+        if ( !plugin.getGameManager().getGameState().equals( GameState.PRE_GAME ) &&
+                !plugin.getGameManager().getGameState().equals( GameState.LOBBY_COUNTDOWN ) )
         {
             sender.sendMessage( ChatColor.RED + "Voting not active right now!" );
             return true;
@@ -56,19 +58,20 @@ public class VoteCommand implements CommandExecutor
                 return true;
             }
 
+            Maps map;
             switch ( i )
             {
                 case 1:
-                    plugin.getGameManager().getVotes().put( plugin.getGameManager().getMaps()[ 0 ].name(), plugin
-                            .getGameManager().getVotes().get( plugin.getGameManager().getMaps()[ 0 ].name() ) + 1 );
-                    p.sendMessage( plugin.getPrefix() + "You have voted for &a" + plugin.getGameManager().getMaps()[
-                            0 ].getName() +
-                            " *7" );
+                    map = plugin.getGameManager().getMaps()[ 0 ];
+                    plugin.getGameManager().getVotes().put( map.name(), plugin
+                            .getGameManager().getVotes().get( map.name() ) + 1 );
+                    p.sendMessage( plugin.getPrefix() + "You have voted for " + map.getName() + " by " + map.getAuthor() + "." );
                     break;
                 case 2:
-                    plugin.getGameManager().getVotes().put( plugin.getGameManager().getMaps()[ 1 ].name(), plugin
-                            .getGameManager().getVotes().get( plugin.getGameManager().getMaps()[ 1 ].name() ) + 1 );
-                    p.sendMessage( plugin.getPrefix() + "You have voted for map 2" );
+                    map = plugin.getGameManager().getMaps()[ 1 ];
+                    plugin.getGameManager().getVotes().put( map.name(), plugin
+                            .getGameManager().getVotes().get( map.name() ) + 1 );
+                    p.sendMessage( plugin.getPrefix() + "You have voted for " + map.getName() + " by " + map.getAuthor() + "." );
                     break;
                 case 3:
                     plugin.getGameManager().getVotes().put( "Random",

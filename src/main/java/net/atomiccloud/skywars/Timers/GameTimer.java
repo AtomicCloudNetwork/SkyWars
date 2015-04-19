@@ -1,4 +1,4 @@
-package net.atomiccloud.skywars.Timers;
+package net.atomiccloud.skywars.timers;
 
 import net.atomiccloud.skywars.KitManager.KitManager;
 import net.atomiccloud.skywars.SkyWarsPlugin;
@@ -81,7 +81,6 @@ public class GameTimer extends BukkitRunnable
                 //BORDER
                 Bukkit.getServer().getOnlinePlayers().stream().filter( players -> KitManager.teir1.contains( players
                         .getName() ) ).forEach( players -> {
-
                     players.getInventory().addItem( new ItemStack( Material.LEATHER_HELMET ) );
                     players.getInventory().addItem( new ItemStack( Material.LEATHER_CHESTPLATE ) );
                     players.getInventory().addItem( new ItemStack( Material.LEATHER_LEGGINGS ) );
@@ -90,8 +89,6 @@ public class GameTimer extends BukkitRunnable
                     players.getInventory().addItem( new ItemStack( Material.SPONGE, 5 ) );
                     players.getInventory().addItem( new ItemStack( Material.WOOD_PICKAXE ) );
                     players.getInventory().addItem( new ItemStack( Material.WOOD_AXE ) );
-
-
                 } );
                 break;
         }

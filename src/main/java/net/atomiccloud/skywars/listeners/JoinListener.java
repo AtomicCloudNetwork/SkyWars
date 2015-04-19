@@ -16,10 +16,17 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class JoinListener implements Listener
 {
 
+    private Location spawnLocation;
+
     private SkyWarsPlugin plugin;
 
     public JoinListener(SkyWarsPlugin plugin)
     {
+        World world = Bukkit.getServer().getWorld( "Sw-World1" );
+        double x = plugin.getConfig().getDouble( "lobby.x" );
+        double y = plugin.getConfig().getDouble( "lobby.y" );
+        double z = plugin.getConfig().getDouble( "lobby.z" );
+        spawnLocation = new Location( world, x, y, z );
         this.plugin = plugin;
     }
 
@@ -28,7 +35,8 @@ public class JoinListener implements Listener
     {
         Player p = e.getPlayer();
         p.setLevel( 0 );
-        if ( !plugin.getGameManager().getGameState().equals( GameState.PRE_GAME ) ||
+        p.teleport( spawnLocation );
+        if ( !plugin.getGameManager().getGameState().equals( GameState.PRE_GAME ) &&
                 !plugin.getGameManager().getGameState().equals( GameState.LOBBY_COUNTDOWN ) )
         {
             e.setJoinMessage( null );
@@ -37,6 +45,7 @@ public class JoinListener implements Listener
             plugin.getGameManager().getSpectators().add( p.getName() );
             return;
         }
+
         if ( plugin.getGameManager().getGameState().equals( GameState.PRE_GAME ) )
         {
             int players = Bukkit.getServer().getOnlinePlayers().size();
@@ -49,36 +58,20 @@ public class JoinListener implements Listener
         plugin.getGameManager().getPlayersInGame().add( p.getName() );
         e.setJoinMessage( null );
         p.setGameMode( GameMode.SURVIVAL );
-        World world = Bukkit.getServer().getWorld( p.getWorld().getName() );
-        double x = plugin.getConfig().getDouble( "lobby.x" );
-        double y = plugin.getConfig().getDouble( "lobby.y" );
-        double z = plugin.getConfig().getDouble( "lobby.z" );
-        p.teleport( new Location( world, x, y, z ) );
-        handleEtc( p );
-    }
-
-    private void handleEtc(Player player) {
-        if ( plugin.getGameManager().getGameState().equals( GameState.PRE_GAME ) ||
-                plugin.getGameManager().getGameState().equals( GameState.LOBBY_COUNTDOWN ) ) {
-            player.setScoreboard( plugin.getGameManager().getVotesBoard() );
-            final Player p = player.getPlayer();
-
-            p.sendMessage( "\n\n\n\n\n\n\n\n" );
-            p.sendMessage( ChatColor.GREEN + "§c§m§l-----------------------------------------" );
-            p.sendMessage( "" );
-            p.sendMessage( "§e§o Game: §cSkyWars" );
-            p.sendMessage( "" );
-            //p.sendMessage("§e§o Current Map: §6" + SW.instance.get);
-            p.sendMessage( "§e§o Currently Online: §a" + Bukkit.getServer().getOnlinePlayers().size() );
-            p.sendMessage( "" );
-            p.sendMessage( ChatColor.GREEN + "§c§m§l-----------------------------------------" );
-            plugin.getGameManager().sendVoteMessage( p );
-        }
-
+        p.setScoreboard( plugin.getGameManager().getVotesBoard() );
+        p.sendMessage( "\n\n\n\n\n\n\n\n" );
+        p.sendMessage( ChatColor.GREEN + "§c§m§l-----------------------------------------" );
+        p.sendMessage( "" );
+        p.sendMessage( "§e§o Game: §cSkyWars" );
+        p.sendMessage( "" );
+        p.sendMessage( "§e§o Currently Online: §a" + Bukkit.getServer().getOnlinePlayers().size() );
+        p.sendMessage( "" );
+        p.sendMessage( ChatColor.GREEN + "§c§m§l-----------------------------------------" );
+        plugin.getGameManager().sendVoteMessage( p );
         for ( Player players : Bukkit.getOnlinePlayers() )
         {
-            players.setAllowFlight( false );
             players.setFlying( false );
+            players.setAllowFlight( false );
         }
     }
 }
