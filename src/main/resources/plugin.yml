@@ -2,7 +2,8 @@ name: ACN-Skywars
 version: ${project.version}
 main: net.atomiccloud.skywars.SkyWarsPlugin
 description: acn skywars
-load: STARTUP
+# Move map copying to its own plugin
+#load: STARTUP
 commands:
   skywars:
   vote:
