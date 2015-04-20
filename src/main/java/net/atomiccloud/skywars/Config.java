@@ -21,15 +21,13 @@ public class Config
     public Config(SkyWarsPlugin plugin)
     {
         this.plugin = plugin;
-        ( (BukkitRunnable) () -> {
-            World world = Bukkit.getServer().getWorld( "Sw-World1" );
-            double x = plugin.getConfig().getDouble( "lobby.x" );
-            double y = plugin.getConfig().getDouble( "lobby.y" );
-            double z = plugin.getConfig().getDouble( "lobby.z" );
-            spawnLocation = new Location( world, x, y, z );
-            plugin.getConfig().getStringList( "death-match-locs" ).forEach( s ->
-                    getDeathMatchLocations().add( locationFromString( s ) ) );
-        } ).runAfter( 2, TimeUnit.SECONDS );
+        World world = Bukkit.getServer().getWorld( "Sw-World1" );
+        double x = plugin.getConfig().getDouble( "lobby.x" );
+        double y = plugin.getConfig().getDouble( "lobby.y" );
+        double z = plugin.getConfig().getDouble( "lobby.z" );
+        spawnLocation = new Location( world, x, y, z );
+        plugin.getConfig().getStringList( "death-match-locs" ).forEach( s ->
+            getDeathMatchLocations().add( locationFromString( s ) ) );
     }
 
     public Location getSpawnLocation()
@@ -50,7 +48,8 @@ public class Config
     public void setSpawnLocations(String mapName)
     {
         plugin.getConfig().getStringList(
-                mapName + "spawn-locs" ).forEach( s -> getSpawnLocations().add( locationFromString( s ) ) );
+                mapName + "spawn-locs" ).forEach( s ->
+                getSpawnLocations().add( locationFromString( s ) ) );
     }
 
     private Location locationFromString(String string)
