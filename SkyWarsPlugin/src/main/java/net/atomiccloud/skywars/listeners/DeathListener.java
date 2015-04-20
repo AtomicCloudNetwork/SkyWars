@@ -42,7 +42,6 @@ public class DeathListener implements Listener
                 Player winner = Bukkit.getPlayer( plugin.getGameManager().getPlayersInGame().get( 0 ) );
                 Bukkit.broadcastMessage( plugin.getPrefix() + winner.getName() + " has won the game!" );
                 plugin.getGameManager().setGameState( GameState.POST_GAME );
-                winner.sendMessage( plugin.getPrefix() +"" );
                 Redis.addCoins( winner, 500 );
             } else
             {

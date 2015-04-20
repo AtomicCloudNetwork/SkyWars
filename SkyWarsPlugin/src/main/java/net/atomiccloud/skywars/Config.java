@@ -20,10 +20,7 @@ public class Config
     {
         this.plugin = plugin;
         World world = Bukkit.getServer().getWorld( "Sw-World1" );
-        double x = plugin.getConfig().getDouble( "lobby.x" );
-        double y = plugin.getConfig().getDouble( "lobby.y" );
-        double z = plugin.getConfig().getDouble( "lobby.z" );
-        spawnLocation = new Location( world, x, y, z );
+        spawnLocation = new Location( world, -398.503D, 114.0D, -279.489D );
         plugin.getConfig().getStringList( "death-match-locs" ).forEach( s ->
                 getDeathMatchLocations().add( locationFromString( s ) ) );
     }

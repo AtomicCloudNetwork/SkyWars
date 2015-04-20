@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GameManager
 {
-    private GameState gameState;
+    private GameState gameState = GameState.PRE_GAME;
 
     private Scoreboard votesBoard;
 
@@ -38,7 +38,6 @@ public class GameManager
 
     public GameManager(SkyWarsPlugin plugin)
     {
-        gameState = GameState.PRE_GAME;
         this.plugin = plugin;
         maps[ 0 ] = Maps.getRandom();
 

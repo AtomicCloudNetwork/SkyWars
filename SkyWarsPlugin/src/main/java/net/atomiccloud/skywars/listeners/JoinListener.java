@@ -68,5 +68,6 @@ public class JoinListener implements Listener
         p.sendMessage( "&e&o Currently Online: &a" + Bukkit.getServer().getOnlinePlayers().size() );
         p.sendMessage( "" );
         p.sendMessage( "&c&m&l-----------------------------------------" );
+        p.sendMessage( "\n" );
     }
 }
