@@ -27,7 +27,8 @@ public class SkyWarsPlugin extends JavaPlugin
     @Override
     public void onEnable()
     {
-        File source = new File( "/home/thedenmc_gmail_com/Sw-World1/" );
+        // Move map copying to its own plugin.
+        /*File source = new File( "/home/thedenmc_gmail_com/Sw-World1/" );
 
         File file = new File( "/home/thedenmc_gmail_com/SW-1/Sw-World1" );
 
@@ -39,16 +40,13 @@ public class SkyWarsPlugin extends JavaPlugin
         } catch ( IOException e )
         {
             e.printStackTrace();
-        }
+        }*/
         plugin = this;
         saveDefaultConfig();
         config = new Config( this );
         gameManager = new GameManager( this );
-
-        ( (BukkitRunnable) () -> {
-            Bukkit.getServer().getWorld( "Sw-World1" ).setMonsterSpawnLimit( 0 );
-            Bukkit.getServer().getWorld( "Sw-World1" ).setStorm( false );
-        } ).runAfter( 2, TimeUnit.SECONDS );
+        Bukkit.getServer().getWorld( "Sw-World1" ).setMonsterSpawnLimit( 0 );
+        Bukkit.getServer().getWorld( "Sw-World1" ).setStorm( false );
         Bukkit.getMessenger().registerOutgoingPluginChannel( this, "BungeeCord" );
         getCommand( "vote" ).setExecutor( new VoteCommand( this ) );
         getCommand( "skywars" ).setExecutor( new SkyWarsCommand( this ) );
@@ -63,7 +61,7 @@ public class SkyWarsPlugin extends JavaPlugin
 
     private void registerListeners()
     {
-        for ( Listener listener : new Listener[]{ new JoinListener( this ), new PvpAndBlocksListener( this ),
+        for ( Listener listener : new Listener[]{ new JoinListener( this ), new BlockListener( this ),
                 new DeathListener( this ), new DamageListener( this ), new MiscellaneousListener( this ),
                 new LeaveListener( this ), new PingListener( this ) } )
         {
