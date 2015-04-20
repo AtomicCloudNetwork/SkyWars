@@ -65,18 +65,21 @@ public class VoteCommand implements CommandExecutor
                     map = plugin.getGameManager().getMaps()[ 0 ];
                     plugin.getGameManager().getVotes().put( map.name(), plugin
                             .getGameManager().getVotes().get( map.name() ) + 1 );
-                    p.sendMessage( plugin.getPrefix() + "You have voted for " + map.getName() + " by " + map.getAuthor() + "." );
+                    p.sendMessage( plugin.getPrefix() + "You have voted for " + map.getName() +
+                            " by " + map.getAuthor() + "." );
                     break;
                 case 2:
                     map = plugin.getGameManager().getMaps()[ 1 ];
                     plugin.getGameManager().getVotes().put( map.name(), plugin
                             .getGameManager().getVotes().get( map.name() ) + 1 );
-                    p.sendMessage( plugin.getPrefix() + "You have voted for " + map.getName() + " by " + map.getAuthor() + "." );
+                    p.sendMessage( plugin.getPrefix() + "You have voted for " + map.getName() +
+                            " by " + map.getAuthor() + "." );
                     break;
                 case 3:
                     plugin.getGameManager().getVotes().put( "Random",
                             plugin.getGameManager().getVotes().get( "Random" ) + 1 );
-                    p.sendMessage( plugin.getPrefix() + "You have voted for a Random map" );
+                    p.sendMessage( plugin.getPrefix() + "You have voted for a " +
+                            ChatColor.DARK_AQUA + "Random" + ChatColor.GRAY + " map." );
                     break;
                 default:
                     plugin.getGameManager().sendVoteMessage( p );

@@ -98,7 +98,7 @@ public class GameManager
         player.sendMessage( ChatColor.translateAlternateColorCodes( '&', "&6&l2. &6" +
                 getMaps()[ 1 ].getName() + " (&b" +
                 getVotes().get( getMaps()[ 1 ].name() ) + " votes&6)" ) );
-        player.sendMessage( ChatColor.translateAlternateColorCodes( '&', "&6&l3. &2" +
+        player.sendMessage( ChatColor.translateAlternateColorCodes( '&', "&6&l3. &3" +
                 "Random" + " &6(&b" + getVotes().get( "Random" ) + " votes&6)" ) );
     }
 
@@ -110,9 +110,12 @@ public class GameManager
         objective.setDisplayName( ChatColor.GREEN + "Votes" );
         objective.setDisplaySlot( DisplaySlot.SIDEBAR );
 
-        objective.getScore( ChatColor.GRAY + getMaps()[ 0 ].getName() ).setScore( votes.get( getMaps()[ 0 ].name() ) );
-        objective.getScore( ChatColor.GRAY + getMaps()[ 1 ].getName() ).setScore( votes.get( getMaps()[ 1 ].name() ) );
-        objective.getScore( ChatColor.AQUA + "Random" ).setScore( votes.get( "Random" ) );
+        objective.getScore( ChatColor.GOLD + "1. " +
+                ChatColor.GRAY + getMaps()[ 0 ].getName() ).setScore( votes.get( getMaps()[ 0 ].name() ) );
+        objective.getScore( ChatColor.GOLD + "2. " +
+                ChatColor.GRAY + getMaps()[ 1 ].getName() ).setScore( votes.get( getMaps()[ 1 ].name() ) );
+        objective.getScore( ChatColor.GOLD + "3. " +
+                ChatColor.DARK_AQUA + "Random" ).setScore( votes.get( "Random" ) );
     }
 
 
@@ -122,15 +125,17 @@ public class GameManager
         {
             case 1:
                 votesBoard.getObjective( "votes" ).getScore(
-                        ChatColor.GRAY + getMaps()[ 0 ].getName() ).setScore( votes.get( getMaps()[ 0 ].name() ) );
+                        ChatColor.GOLD + "1. " + ChatColor.GRAY + getMaps()[ 0 ].getName() ).setScore(
+                        votes.get( getMaps()[ 0 ].name() ) );
                 break;
             case 2:
                 votesBoard.getObjective( "votes" ).getScore(
-                        ChatColor.GRAY + getMaps()[ 1 ].getName() ).setScore( votes.get( getMaps()[ 1 ].name() ) );
+                        ChatColor.GOLD + "2. " + ChatColor.GRAY + getMaps()[ 1 ].getName() ).setScore(
+                        votes.get( getMaps()[ 1 ].name() ) );
                 break;
             case 3:
                 votesBoard.getObjective( "votes" ).getScore(
-                        ChatColor.AQUA + "Random" ).setScore( votes.get( "Random" ) );
+                        ChatColor.GOLD + "3. " + ChatColor.DARK_AQUA + "Random" ).setScore( votes.get( "Random" ) );
                 break;
         }
     }

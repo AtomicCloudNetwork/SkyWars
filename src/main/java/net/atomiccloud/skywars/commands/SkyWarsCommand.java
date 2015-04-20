@@ -35,7 +35,6 @@ public class SkyWarsCommand implements CommandExecutor
         {
             if ( args.length == 2 )
             {
-
                 List<String> strings = plugin.getConfig().getStringList( args[ 1 ] + "spawn-locs" ) != null
                         ? plugin.getConfig().getStringList( args[ 1 ] + "spawn-locs" ) : new ArrayList<>();
                 strings.add( p.getLocation().getWorld().getName() + "," +

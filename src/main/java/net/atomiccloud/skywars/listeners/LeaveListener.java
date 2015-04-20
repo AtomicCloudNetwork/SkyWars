@@ -3,6 +3,7 @@ package net.atomiccloud.skywars.listeners;
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -49,7 +50,7 @@ public class LeaveListener implements Listener
             {
                 for ( Player players : Bukkit.getServer().getOnlinePlayers() )
                 {
-                    players.kickPlayer( "Server ran out of players." );
+                    players.kickPlayer( ChatColor.RED + "Server ran out of players." );
                     Bukkit.shutdown();
                 }
             }

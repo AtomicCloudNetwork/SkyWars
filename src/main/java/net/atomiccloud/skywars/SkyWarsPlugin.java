@@ -36,7 +36,7 @@ public class SkyWarsPlugin extends JavaPlugin
 
         try
         {
-            FileUtils.deleteDirectory( file );
+            // FileUtils.deleteDirectory( file );
             FileUtils.copyDirectory( des, file );
         } catch ( IOException e )
         {
