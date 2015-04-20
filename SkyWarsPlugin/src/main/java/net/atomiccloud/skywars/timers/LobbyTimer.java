@@ -4,16 +4,19 @@ import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;
 import net.atomiccloud.skywars.game.Maps;
 import org.apache.commons.io.FileUtils;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Sound;
+import org.bukkit.WorldCreator;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Scoreboard;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
 
@@ -106,9 +109,9 @@ public class LobbyTimer extends BukkitRunnable
             plugin.getGameManager().setWinningMap( Maps.valueOf( mapName ) );
         } else
         {
-            plugin.getGameManager().setWinningMap( Arrays.stream( Maps.values() ).filter( map ->
-                    !map.equals( plugin.getGameManager().getMaps()[ 0 ] )
-                            || !map.equals( plugin.getGameManager().getMaps()[ 1 ] ) ).findAny().get() );
+            plugin.getGameManager().setWinningMap(
+                    plugin.getGameManager().getMapList().get(
+                            plugin.getGameManager().getRandom().nextInt( Maps.values().length - 2 ) ) );
         }
         Bukkit.broadcastMessage( plugin.getPrefix() + plugin.getGameManager().getWinningMap().getName() + " by "
                 + plugin.getGameManager().getWinningMap().getAuthor() + " won voting!" );
@@ -121,7 +124,6 @@ public class LobbyTimer extends BukkitRunnable
             {
                 FileUtils.copyDirectory( new File( "/home/thedenmc_gmail_com/"
                         + plugin.getGameManager().getWinningMap().toString() ), file );
-
             }
         } catch ( IOException e )
         {
@@ -133,10 +135,11 @@ public class LobbyTimer extends BukkitRunnable
         //Teleportation to Arena!
         Player[] players = Bukkit.getOnlinePlayers().toArray(
                 new Player[ Bukkit.getOnlinePlayers().size() ] );
+        Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         for ( int i = 0; i < Bukkit.getOnlinePlayers().size(); i++ )
         {
             Player player = players[ i ];
-            player.setScoreboard( Bukkit.getScoreboardManager().getNewScoreboard() );
+            player.setScoreboard( scoreboard );
             player.teleport( plugin.getConfiguration().getSpawnLocations().get( i ) );
             player.addPotionEffect( new PotionEffect( PotionEffectType.DAMAGE_RESISTANCE, 20, 100 ) );
         }

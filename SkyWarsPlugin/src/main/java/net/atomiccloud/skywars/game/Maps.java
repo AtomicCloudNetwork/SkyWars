@@ -42,8 +42,8 @@ public enum Maps
         return mapFile;
     }
 
-    public static Maps getRandom()
+    public static Maps getRandom(SecureRandom random)
     {
-        return values()[ new SecureRandom().nextInt( values().length ) ];
+        return values()[ random.nextInt( values().length ) ];
     }
 }

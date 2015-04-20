@@ -1,11 +1,14 @@
 package net.atomiccloud.skywars.listeners;
 
+import net.DynamicJk.AtomicCore.Cosmites.Redis;
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;
+import net.atomiccloud.skywars.util.BungeeCord;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -19,13 +22,13 @@ public class LeaveListener implements Listener
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerQuit(PlayerQuitEvent e)
     {
         handleLeave( e.getPlayer() );
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerKick(PlayerKickEvent event)
     {
         handleLeave( event.getPlayer() );
@@ -33,6 +36,10 @@ public class LeaveListener implements Listener
 
     private void handleLeave(Player player)
     {
+        if ( plugin.getGameManager().getPlayersInGame().contains( player.getName() ) )
+            plugin.getGameManager().getPlayersInGame().remove( player.getName() );
+        if ( plugin.getGameManager().getSpectators().contains( player.getName() ) )
+            plugin.getGameManager().getSpectators().remove( player.getName() );
         if ( plugin.getGameManager().getGameState().equals( GameState.LOBBY_COUNTDOWN ) )
         {
             if ( Bukkit.getServer().getOnlinePlayers().size() < 2 )
@@ -42,18 +49,19 @@ public class LeaveListener implements Listener
             }
         }
 
-        if ( plugin.getGameManager().getPlayersInGame().contains( player.getName() ) )
-            plugin.getGameManager().getPlayersInGame().remove( player.getName() );
-
         if ( plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) )
         {
             if ( Bukkit.getServer().getOnlinePlayers().size() < 2 )
             {
-                for ( Player players : Bukkit.getServer().getOnlinePlayers() )
+                if ( plugin.getGameManager().getPlayersInGame().size() == 1 )
                 {
-                    players.kickPlayer( ChatColor.RED + "Server ran out of players." );
-                    Bukkit.shutdown();
+                    Player winner = Bukkit.getPlayer( plugin.getGameManager().getPlayersInGame().get( 0 ) );
+                    Redis.addCoins( winner, 500 );
+                    Bukkit.broadcastMessage( plugin.getPrefix() + winner.getName() + " has won the game!" );
                 }
+                Bukkit.broadcastMessage( ChatColor.RED + "Server ran out of players." );
+                Bukkit.getOnlinePlayers().forEach( BungeeCord::toHub );
+                Bukkit.shutdown();
             }
         }
     }

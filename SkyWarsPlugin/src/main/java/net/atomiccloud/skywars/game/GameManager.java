@@ -14,16 +14,21 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class GameManager
 {
+    private SecureRandom random = new SecureRandom();
+
     private GameState gameState = GameState.PRE_GAME;
 
     private Scoreboard votesBoard;
 
     private Maps winningMap;
+
+    private List<Maps> mapList = new ArrayList<>();
 
     private Maps[] maps = new Maps[ 2 ];
 
@@ -39,15 +44,11 @@ public class GameManager
     public GameManager(SkyWarsPlugin plugin)
     {
         this.plugin = plugin;
-        maps[ 0 ] = Maps.getRandom();
-
-        if ( maps[ 0 ].ordinal() == Maps.values().length - 1 )
-        {
-            maps[ 1 ] = Maps.values()[ 0 ];
-        } else
-        {
-            maps[ 1 ] = Maps.values()[ maps[ 0 ].ordinal() + 1 ];
-        }
+        getMapList().addAll( Arrays.asList( Maps.values() ) );
+        maps[ 0 ] = Maps.getRandom( getRandom() );
+        getMapList().remove( maps[ 0 ] );
+        maps[ 1 ] = mapList.get( getRandom().nextInt( Maps.values().length - 1 ) );
+        getMapList().remove( maps[ 1 ] );
 
         for ( Maps map : maps )
         {
@@ -174,5 +175,15 @@ public class GameManager
     public Set<String> getSpectators()
     {
         return spectators;
+    }
+
+    public List<Maps> getMapList()
+    {
+        return mapList;
+    }
+
+    public SecureRandom getRandom()
+    {
+        return random;
     }
 }

@@ -10,6 +10,6 @@ public class MoveListener implements Listener
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event)
     {
-        event.setCancelled( true );
+        event.setTo( event.getFrom() );
     }
 }

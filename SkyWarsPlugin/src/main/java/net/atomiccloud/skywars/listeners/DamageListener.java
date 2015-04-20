@@ -32,6 +32,7 @@ public class DamageListener implements Listener
             }
 
             if ( plugin.getGameManager().getGameState().equals( GameState.PRE_GAME ) ||
+                    plugin.getGameManager().getGameState().equals( GameState.LOBBY_COUNTDOWN ) ||
                     plugin.getGameManager().getSpectators().contains( player.getName() ) )
             {
                 if ( e.getCause().equals( EntityDamageEvent.DamageCause.VOID ) )

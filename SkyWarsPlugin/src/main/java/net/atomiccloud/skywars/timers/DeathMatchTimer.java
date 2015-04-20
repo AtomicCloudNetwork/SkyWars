@@ -97,7 +97,7 @@ public class DeathMatchTimer extends BukkitRunnable
     private void broadcastEnd()
     {
         Bukkit.broadcastMessage( countdown == 1 ? plugin.getPrefix() + "Death match ending in " + countdown + "second!"
-                : plugin.getPrefix() + "Death match ending in " + countdown + "seconds!" );
+                : plugin.getPrefix() + "Death match ending in " + countdown + " seconds!" );
     }
 
     @SuppressWarnings("unchecked")
