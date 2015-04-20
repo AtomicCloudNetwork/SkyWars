@@ -34,5 +34,4 @@ public class PvpAndBlocksListener implements Listener
             e.setCancelled( true );
         }
     }
-
 }

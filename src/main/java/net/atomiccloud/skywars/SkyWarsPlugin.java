@@ -9,9 +9,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import net.atomiccloud.skywars.util.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class SkyWarsPlugin extends JavaPlugin
 {
@@ -25,27 +27,28 @@ public class SkyWarsPlugin extends JavaPlugin
     @Override
     public void onEnable()
     {
+        File source = new File( "/home/thedenmc_gmail_com/Sw-World1/" );
+
+        File file = new File( "/home/thedenmc_gmail_com/SW-1/Sw-World1" );
+
+        try
+        {
+            FileUtils.deleteDirectory( file );
+            if ( file.mkdir() ) getLogger().info( "Created World folder!" );
+            FileUtils.copyDirectory( source, file );
+        } catch ( IOException e )
+        {
+            e.printStackTrace();
+        }
         plugin = this;
         saveDefaultConfig();
         config = new Config( this );
         gameManager = new GameManager( this );
 
-        File des = new File( "/home/thedenmc_gmail_com/Sw-World1" );
-
-        File file = Bukkit.getWorld( "Sw-World1" ).getWorldFolder();
-
-        try
-        {
-            // FileUtils.deleteDirectory( file );
-            FileUtils.copyDirectory( des, file );
-        } catch ( IOException e )
-        {
-            e.printStackTrace();
-        }
-
-        Bukkit.getServer().getWorld( "Sw-World1" ).setMonsterSpawnLimit( 0 );
-        Bukkit.getServer().getWorld( "Sw-World1" ).setStorm( false );
-
+        ( (BukkitRunnable) () -> {
+            Bukkit.getServer().getWorld( "Sw-World1" ).setMonsterSpawnLimit( 0 );
+            Bukkit.getServer().getWorld( "Sw-World1" ).setStorm( false );
+        } ).runAfter( 2, TimeUnit.SECONDS );
         Bukkit.getMessenger().registerOutgoingPluginChannel( this, "BungeeCord" );
         getCommand( "vote" ).setExecutor( new VoteCommand( this ) );
         getCommand( "skywars" ).setExecutor( new SkyWarsCommand( this ) );

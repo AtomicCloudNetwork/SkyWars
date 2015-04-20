@@ -39,7 +39,7 @@ public class DamageListener implements Listener
             {
                 if ( e.getCause().equals( EntityDamageEvent.DamageCause.VOID ) )
                 {
-                    e.getEntity().teleport( plugin.getConfiguration().getGameLocation() );
+                    e.getEntity().teleport( plugin.getConfiguration().getSpawnLocation() );
                 }
             }
         }

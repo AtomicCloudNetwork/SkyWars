@@ -90,6 +90,4 @@ public class VoteCommand implements CommandExecutor
         }
         return true;
     }
-
-
 }

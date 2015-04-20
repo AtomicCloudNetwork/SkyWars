@@ -14,7 +14,7 @@ public class GameTimer extends BukkitRunnable
 {
 
     private SkyWarsPlugin plugin;
-    private int countdown = 800;
+    private int countdown = 600;
 
     public GameTimer(SkyWarsPlugin plugin)
     {

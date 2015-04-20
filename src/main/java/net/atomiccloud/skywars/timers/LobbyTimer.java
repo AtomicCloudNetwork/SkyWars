@@ -143,6 +143,4 @@ public class LobbyTimer extends BukkitRunnable
         Bukkit.getWorld( "Sw-World1" ).getLivingEntities().stream().filter( entity ->
                 !( entity instanceof Player ) ).forEach( Entity::remove );
     }
-
-
 }

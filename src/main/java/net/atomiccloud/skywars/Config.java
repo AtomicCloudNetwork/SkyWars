@@ -1,16 +1,17 @@
 package net.atomiccloud.skywars;
 
+import net.atomiccloud.skywars.util.BukkitRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Config
 {
     private Location spawnLocation;
-    private Location gameLocation;
 
     public List<Location> spawnLocations = new ArrayList<>();
     public List<Location> deathMatchLocations = new ArrayList<>();
@@ -20,19 +21,15 @@ public class Config
     public Config(SkyWarsPlugin plugin)
     {
         this.plugin = plugin;
-        World world = Bukkit.getServer().getWorld( "Sw-World1" );
-        double x = plugin.getConfig().getDouble( "lobby.x" );
-        double y = plugin.getConfig().getDouble( "lobby.y" );
-        double z = plugin.getConfig().getDouble( "lobby.z" );
-        spawnLocation = new Location( world, x, y, z );
-        World w = Bukkit.getServer().getWorld(
-                plugin.getConfig().getString( "game.world" ) );
-        double x2 = plugin.getConfig().getDouble( "game.x" );
-        double y2 = plugin.getConfig().getDouble( "game.y" );
-        double z2 = plugin.getConfig().getDouble( "game.z" );
-        gameLocation = new Location( w, x2, y2, z2 );
-        plugin.getConfig().getStringList( "death-match-locs" ).forEach( s ->
-                getDeathMatchLocations().add( locationFromString( s ) ));
+        ( (BukkitRunnable) () -> {
+            World world = Bukkit.getServer().getWorld( "Sw-World1" );
+            double x = plugin.getConfig().getDouble( "lobby.x" );
+            double y = plugin.getConfig().getDouble( "lobby.y" );
+            double z = plugin.getConfig().getDouble( "lobby.z" );
+            spawnLocation = new Location( world, x, y, z );
+            plugin.getConfig().getStringList( "death-match-locs" ).forEach( s ->
+                    getDeathMatchLocations().add( locationFromString( s ) ) );
+        } ).runAfter( 2, TimeUnit.SECONDS );
     }
 
     public Location getSpawnLocation()
@@ -43,11 +40,6 @@ public class Config
     public List<Location> getSpawnLocations()
     {
         return spawnLocations;
-    }
-
-    public Location getGameLocation()
-    {
-        return gameLocation;
     }
 
     public List<Location> getDeathMatchLocations()

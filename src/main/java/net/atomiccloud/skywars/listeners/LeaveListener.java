@@ -35,15 +35,16 @@ public class LeaveListener implements Listener
     {
         if ( plugin.getGameManager().getGameState().equals( GameState.LOBBY_COUNTDOWN ) )
         {
-            if ( Bukkit.getServer().getOnlinePlayers().size() <= 1 )
+            if ( Bukkit.getServer().getOnlinePlayers().size() < 2 )
             {
                 plugin.getGameManager().setGameState( GameState.PRE_GAME );
                 Bukkit.broadcastMessage( plugin.getPrefix() + "Game timer had ended not enough players to start!" );
-
             }
         }
+
         if ( plugin.getGameManager().getPlayersInGame().contains( player.getName() ) )
             plugin.getGameManager().getPlayersInGame().remove( player.getName() );
+
         if ( plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) )
         {
             if ( Bukkit.getServer().getOnlinePlayers().size() < 2 )

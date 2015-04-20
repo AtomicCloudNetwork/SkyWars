@@ -5,6 +5,7 @@ import net.atomiccloud.skywars.timers.DeathMatchTimer;
 import net.atomiccloud.skywars.timers.GameTimer;
 import net.atomiccloud.skywars.timers.LobbyTimer;
 import net.atomiccloud.skywars.timers.RestartTimer;
+import net.atomiccloud.skywars.util.BukkitRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -14,6 +15,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class GameManager
 {
@@ -30,7 +32,7 @@ public class GameManager
     private List<String> playersInGame = new ArrayList<>();
     private Set<String> spectators = new HashSet<>();
 
-    BukkitTask currentTask;
+    private BukkitTask currentTask;
 
     private SkyWarsPlugin plugin;
 
@@ -53,7 +55,7 @@ public class GameManager
             votes.put( map.name(), 0 );
         }
         votes.put( "Random", 0 );
-        makeScoreboard();
+        ( (BukkitRunnable) this::makeScoreboard ).runAfter( 2, TimeUnit.SECONDS );
     }
 
     public GameState getGameState()
