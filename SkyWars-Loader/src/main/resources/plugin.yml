@@ -1,0 +1,5 @@
+name: ACN-Skywars
+version: ${project.version}
+main: net.atomiccloud.skywarsloader.SkyWarsLoader
+description: acn skywar's loader
+load: STARTUP

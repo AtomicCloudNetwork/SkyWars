@@ -2,9 +2,6 @@ package net.atomiccloud.skywars.listeners;
 
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -3,7 +3,6 @@ package net.atomiccloud.skywars.listeners;
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

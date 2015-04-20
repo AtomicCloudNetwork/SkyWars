@@ -7,12 +7,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-public class PvpAndBlocksListener implements Listener
+public class BlockListener implements Listener
 {
 
     private SkyWarsPlugin plugin;
 
-    public PvpAndBlocksListener(SkyWarsPlugin plugin)
+    public BlockListener(SkyWarsPlugin plugin)
     {
         this.plugin = plugin;
     }

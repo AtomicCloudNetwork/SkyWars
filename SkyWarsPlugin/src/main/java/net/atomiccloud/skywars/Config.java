@@ -1,13 +1,11 @@
 package net.atomiccloud.skywars;
 
-import net.atomiccloud.skywars.util.BukkitRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class Config
 {
@@ -27,7 +25,7 @@ public class Config
         double z = plugin.getConfig().getDouble( "lobby.z" );
         spawnLocation = new Location( world, x, y, z );
         plugin.getConfig().getStringList( "death-match-locs" ).forEach( s ->
-            getDeathMatchLocations().add( locationFromString( s ) ) );
+                getDeathMatchLocations().add( locationFromString( s ) ) );
     }
 
     public Location getSpawnLocation()
