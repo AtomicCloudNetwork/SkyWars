@@ -19,7 +19,7 @@ public class DeathMatchTimer extends BukkitRunnable
 
     private int countdown = 130;
 
-    private MoveListener listener = new MoveListener();
+    private MoveListener listener = new MoveListener( plugin );
 
     public DeathMatchTimer(SkyWarsPlugin plugin)
     {

@@ -26,11 +26,11 @@ public class GameManager
 
     private Scoreboard votesBoard;
 
-    private Maps winningMap;
+    private SkyWarsMap winningMap;
 
-    private List<Maps> mapList = new ArrayList<>();
+    private List<SkyWarsMap> mapList = new ArrayList<>();
 
-    private Maps[] maps = new Maps[ 2 ];
+    private SkyWarsMap[] maps = new SkyWarsMap[ 2 ];
 
     private Map<String, Integer> votes = new HashMap<>();
 
@@ -44,13 +44,13 @@ public class GameManager
     public GameManager(SkyWarsPlugin plugin)
     {
         this.plugin = plugin;
-        getMapList().addAll( Arrays.asList( Maps.values() ) );
-        maps[ 0 ] = Maps.getRandom( getRandom() );
+        getMapList().addAll( Arrays.asList( SkyWarsMap.values() ) );
+        maps[ 0 ] = SkyWarsMap.getRandom( getRandom() );
         getMapList().remove( maps[ 0 ] );
-        maps[ 1 ] = mapList.get( getRandom().nextInt( Maps.values().length - 1 ) );
+        maps[ 1 ] = mapList.get( getRandom().nextInt( SkyWarsMap.values().length - 1 ) );
         getMapList().remove( maps[ 1 ] );
 
-        for ( Maps map : maps )
+        for ( SkyWarsMap map : maps )
         {
             votes.put( map.name(), 0 );
         }
@@ -142,7 +142,7 @@ public class GameManager
         }
     }
 
-    public Maps[] getMaps()
+    public SkyWarsMap[] getMaps()
     {
         return maps;
     }
@@ -162,12 +162,12 @@ public class GameManager
         return playersInGame;
     }
 
-    public Maps getWinningMap()
+    public SkyWarsMap getWinningMap()
     {
         return winningMap;
     }
 
-    public void setWinningMap(Maps winningMap)
+    public void setWinningMap(SkyWarsMap winningMap)
     {
         this.winningMap = winningMap;
     }
@@ -177,7 +177,7 @@ public class GameManager
         return spectators;
     }
 
-    public List<Maps> getMapList()
+    public List<SkyWarsMap> getMapList()
     {
         return mapList;
     }

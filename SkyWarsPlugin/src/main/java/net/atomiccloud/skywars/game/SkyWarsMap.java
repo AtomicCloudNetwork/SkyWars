@@ -3,7 +3,7 @@ package net.atomiccloud.skywars.game;
 import java.io.File;
 import java.security.SecureRandom;
 
-public enum Maps
+public enum SkyWarsMap
 {
     SKY_LANDS( "Sky Lands", "Victhetiger", new File( "/home/thedenmc_gmail_com/SkyLands" ) ),
     MINES( "Mines", "Victhetiger", new File( "/home/thedenmc_gmail_com/Mines" ) ),
@@ -14,7 +14,7 @@ public enum Maps
     String author;
     File mapFile;
 
-    Maps(String name, String author, File mapFile)
+    SkyWarsMap(String name, String author, File mapFile)
     {
         this.name = name;
         this.author = author;
@@ -42,7 +42,7 @@ public enum Maps
         return mapFile;
     }
 
-    public static Maps getRandom(SecureRandom random)
+    public static SkyWarsMap getRandom(SecureRandom random)
     {
         return values()[ random.nextInt( values().length ) ];
     }

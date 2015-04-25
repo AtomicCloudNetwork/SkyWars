@@ -1,5 +1,6 @@
 package net.atomiccloud.skywarsloader;
 
+import net.atomiccloud.skywars.game.SkyWarsMap;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -19,14 +20,20 @@ public class SkyWarsLoader extends JavaPlugin
         try
         {
             FileUtils.deleteDirectory( file );
-            if ( file.mkdir() ) getLogger().info( "Created World folder!" );
+            for ( SkyWarsMap map : SkyWarsMap.values() )
+            {
+                File mapFile = map.getMapFile();
+                if ( mapFile.exists() )
+                {
+                    FileUtils.deleteDirectory( mapFile );
+                    break;
+                }
+            }
             FileUtils.copyDirectory( source, file );
+            getServer().getPluginManager().disablePlugin( this );
         } catch ( IOException e )
         {
             e.printStackTrace();
-            getServer().getPluginManager().disablePlugin( this );
         }
-        getLogger().info( "Loaded SkyWars Map!" );
-        getServer().getPluginManager().disablePlugin( this );
     }
 }

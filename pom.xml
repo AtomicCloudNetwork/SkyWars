@@ -7,7 +7,7 @@
     <groupId>net.atomic-cloud</groupId>
     <artifactId>SkyWars</artifactId>
     <packaging>pom</packaging>
-    <version>0.39b</version>
+    <version>0.40b</version>
     <modules>
         <module>SkyWars-Loader</module>
         <module>SkyWarsPlugin</module>

@@ -2,7 +2,7 @@ package net.atomiccloud.skywars.commands;
 
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;
-import net.atomiccloud.skywars.game.Maps;
+import net.atomiccloud.skywars.game.SkyWarsMap;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -58,7 +58,7 @@ public class VoteCommand implements CommandExecutor
                 return true;
             }
 
-            Maps map;
+            SkyWarsMap map;
             switch ( i )
             {
                 case 1:

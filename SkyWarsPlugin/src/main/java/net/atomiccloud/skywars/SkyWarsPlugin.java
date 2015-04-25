@@ -43,7 +43,7 @@ public class SkyWarsPlugin extends JavaPlugin
     {
         for ( Listener listener : new Listener[]{ new JoinListener( this ), new BlockListener( this ),
                 new DeathListener( this ), new DamageListener( this ), new MiscellaneousListener( this ),
-                new LeaveListener( this ), new PingListener( this ) } )
+                new LeaveListener( this ), new PingListener( this ), new ExplosionListener( this ) } )
         {
             getServer().getPluginManager().registerEvents( listener, this );
         }

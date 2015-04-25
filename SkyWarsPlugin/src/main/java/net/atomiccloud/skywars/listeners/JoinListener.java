@@ -50,24 +50,12 @@ public class JoinListener implements Listener
         e.setJoinMessage( null );
         p.setGameMode( GameMode.SURVIVAL );
         p.setScoreboard( plugin.getGameManager().getVotesBoard() );
-        sendJoinMessage( p );
+        p.sendMessage( "\n\n\n\n\n\n" );
         plugin.getGameManager().sendVoteMessage( p );
         for ( Player players : Bukkit.getOnlinePlayers() )
         {
             players.setFlying( false );
             players.setAllowFlight( false );
         }
-    }
-
-    private void sendJoinMessage(Player p) {
-        p.sendMessage( "\n\n\n\n\n\n\n\n" );
-        p.sendMessage( "&c&m&l-----------------------------------------" );
-        p.sendMessage( "" );
-        p.sendMessage( "&e&o Game: &cSkyWars" );
-        p.sendMessage( "" );
-        p.sendMessage( "&e&o Currently Online: &a" + Bukkit.getServer().getOnlinePlayers().size() );
-        p.sendMessage( "" );
-        p.sendMessage( "&c&m&l-----------------------------------------" );
-        p.sendMessage( "\n" );
     }
 }

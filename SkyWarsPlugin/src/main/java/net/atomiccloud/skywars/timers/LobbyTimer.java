@@ -2,7 +2,7 @@ package net.atomiccloud.skywars.timers;
 
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;
-import net.atomiccloud.skywars.game.Maps;
+import net.atomiccloud.skywars.game.SkyWarsMap;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -106,18 +106,17 @@ public class LobbyTimer extends BukkitRunnable
                 Comparator.comparingInt( Map.Entry::getValue ) ).get().getKey();
         if ( !mapName.equals( "Random" ) )
         {
-            plugin.getGameManager().setWinningMap( Maps.valueOf( mapName ) );
+            plugin.getGameManager().setWinningMap( SkyWarsMap.valueOf( mapName ) );
         } else
         {
             plugin.getGameManager().setWinningMap(
                     plugin.getGameManager().getMapList().get(
-                            plugin.getGameManager().getRandom().nextInt( Maps.values().length - 2 ) ) );
+                            plugin.getGameManager().getRandom().nextInt( SkyWarsMap.values().length - 2 ) ) );
         }
         Bukkit.broadcastMessage( plugin.getPrefix() + plugin.getGameManager().getWinningMap().getName() + " by "
                 + plugin.getGameManager().getWinningMap().getAuthor() + " won voting!" );
 
-        File file = new File( "/home/thedenmc_gmail_com/SW-1/" +
-                plugin.getGameManager().getWinningMap().toString() );
+        File file = plugin.getGameManager().getWinningMap().getMapFile();
         try
         {
             if ( file.mkdir() )
