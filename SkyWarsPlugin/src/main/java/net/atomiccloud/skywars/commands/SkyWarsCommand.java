@@ -1,6 +1,7 @@
 package net.atomiccloud.skywars.commands;
 
 import net.atomiccloud.skywars.SkyWarsPlugin;
+import net.atomiccloud.skywars.game.GameState;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,6 +24,10 @@ public class SkyWarsCommand implements CommandExecutor
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
+        if ( !( sender instanceof Player ) )
+        {
+            return true;
+        }
         Player p = (Player) sender;
 
         if ( args.length == 0 )
@@ -30,6 +35,17 @@ public class SkyWarsCommand implements CommandExecutor
             p.sendMessage( "Please Specify an action!" );
             plugin.getConfig().set( "World", p.getWorld().getName() );
             return true;
+        }
+
+        if ( args[ 0 ].equalsIgnoreCase( "forcedeathmatch" ) )
+        {
+            if ( plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) )
+            {
+                plugin.getGameManager().setGameState( GameState.DEATH_MATCH );
+            } else
+            {
+                p.sendMessage( ChatColor.RED + "nope.avi" );
+            }
         }
         if ( args[ 0 ].equalsIgnoreCase( "setspawn" ) )
         {
@@ -70,7 +86,8 @@ public class SkyWarsCommand implements CommandExecutor
             plugin.saveConfig();
             p.sendMessage( ChatColor.RED + "NPC spawn has been added!" );
         }
-        if (args[0].equalsIgnoreCase( "setdeathspawn" )) {
+        if ( args[ 0 ].equalsIgnoreCase( "setdeathspawn" ) )
+        {
             List<String> strings = plugin.getConfig().getStringList( "death-match-locs" ) != null
                     ? plugin.getConfig().getStringList( "death-match-locs" ) : new ArrayList<>();
             strings.add( p.getLocation().getWorld().getName() + "," +

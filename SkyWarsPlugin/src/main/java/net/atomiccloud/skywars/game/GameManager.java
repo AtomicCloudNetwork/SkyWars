@@ -55,7 +55,7 @@ public class GameManager
             votes.put( map.name(), 0 );
         }
         votes.put( "Random", 0 );
-        ( (BukkitRunnable) this::makeScoreboard ).runAfter( 2, TimeUnit.SECONDS );
+        makeScoreboard();
     }
 
     public GameState getGameState()

@@ -25,7 +25,8 @@ public class DamageListener implements Listener
         if ( e.getEntity() instanceof Player )
         {
             Player player = (Player) e.getEntity();
-            if ( !plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) ||
+            if ( ( !plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) &&
+                    !plugin.getGameManager().getGameState().equals( GameState.DEATH_MATCH )) ||
                     plugin.getGameManager().getSpectators().contains( player.getName() ) )
             {
                 e.setCancelled( true );

@@ -20,7 +20,7 @@ public class MoveListener implements Listener
     {
         if ( plugin.getGameManager().getPlayersInGame().contains( event.getPlayer().getName() ) )
         {
-            event.setTo( event.getFrom() );
+            event.setCancelled( true );
         }
     }
 }

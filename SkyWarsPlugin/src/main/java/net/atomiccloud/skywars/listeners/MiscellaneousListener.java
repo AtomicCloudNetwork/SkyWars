@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
+import org.bukkit.event.player.PlayerExpChangeEvent;
 
 public class MiscellaneousListener implements Listener
 {
@@ -37,6 +38,11 @@ public class MiscellaneousListener implements Listener
                 }
             }
         }
+    }
+
+    @EventHandler
+    public void onPlayerExpChange(PlayerExpChangeEvent event) {
+        event.setAmount( 0 );
     }
 
     @EventHandler

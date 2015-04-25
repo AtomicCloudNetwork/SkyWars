@@ -110,8 +110,8 @@ public class DeathMatchTimer extends BukkitRunnable
                 if ( method.getAnnotation( EventHandler.class ) != null )
                 {
                     unregisterEvent( (Class<? extends Event>) method.getParameterTypes()[ 0 ], listener, plugin );
+                    break;
                 }
-
             }
         } catch ( Exception ignored )
         {

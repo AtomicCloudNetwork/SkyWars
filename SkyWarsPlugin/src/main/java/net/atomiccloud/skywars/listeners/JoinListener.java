@@ -42,7 +42,6 @@ public class JoinListener implements Listener
             int players = Bukkit.getServer().getOnlinePlayers().size();
             if ( players >= 2 )
             {
-                Bukkit.broadcastMessage( plugin.getPrefix() + "Game Timer started." );
                 plugin.getGameManager().setGameState( GameState.LOBBY_COUNTDOWN );
             }
         }

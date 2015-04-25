@@ -35,49 +35,44 @@ public class LobbyTimer extends BukkitRunnable
     @Override
     public void run()
     {
+        for ( Player player : Bukkit.getOnlinePlayers() )
+        {
+            player.setLevel( countdown );
+        }
         switch ( countdown )
         {
+            case 60:
+                broadcastMessage();
             case 50:
                 broadcastMessage();
-                playNotePling();
                 break;
             case 30:
                 broadcastMessage();
-                playNotePling();
                 break;
             case 20:
                 broadcastMessage();
-                playNotePling();
                 break;
             case 10:
                 broadcastMessage();
-                playNotePling();
                 break;
             case 5:
                 broadcastMessage();
-                playNotePling();
                 break;
             case 4:
                 broadcastMessage();
-                playNotePling();
                 break;
             case 3:
                 broadcastMessage();
-                playNotePling();
                 break;
             case 2:
                 broadcastMessage();
-                playNotePling();
                 break;
             case 1:
                 broadcastMessage();
-                playNotePling();
-                Bukkit.dispatchCommand( Bukkit.getConsoleSender(), "gamerule doTileDrops true" );
                 break;
             case 0:
                 Bukkit.broadcastMessage( ChatColor.translateAlternateColorCodes(
                         '&', "&7[&cSkyWars&7] &aGood Luck!" ) );
-                playNotePling();
                 handleGameStart();
                 plugin.getGameManager().setGameState( GameState.IN_GAME );
                 break;
@@ -90,10 +85,6 @@ public class LobbyTimer extends BukkitRunnable
         Bukkit.broadcastMessage( ChatColor.translateAlternateColorCodes( '&',
                 countdown == 1 ? "&7[&cSkyWars&7] &aGame starting in " + countdown + " second."
                         : "&7[&cSkyWars&7] &aGame starting in " + countdown + " seconds." ) );
-    }
-
-    private void playNotePling()
-    {
         for ( Player players : Bukkit.getOnlinePlayers() )
         {
             players.playSound( players.getLocation(), Sound.NOTE_PLING, 20, 20 );
@@ -137,8 +128,9 @@ public class LobbyTimer extends BukkitRunnable
             Player player = players[ i ];
             player.setScoreboard( scoreboard );
             player.teleport( plugin.getConfiguration().getSpawnLocations().get( i ) );
-            player.getNearbyEntities( 6, 6, 6 ).stream().filter( entity -> !( entity instanceof Player ) ).forEach( Entity::remove );
-            player.addPotionEffect( new PotionEffect( PotionEffectType.DAMAGE_RESISTANCE, 20, 100 ) );
+            player.getNearbyEntities( 6, 6, 6 ).stream().filter( entity ->
+                    !( entity instanceof Player ) ).forEach( Entity::remove );
+            player.addPotionEffect( new PotionEffect( PotionEffectType.DAMAGE_RESISTANCE, 40, 100 ) );
         }
     }
 }
