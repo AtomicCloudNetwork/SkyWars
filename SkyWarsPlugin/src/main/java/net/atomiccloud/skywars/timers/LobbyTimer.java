@@ -116,14 +116,11 @@ public class LobbyTimer extends BukkitRunnable
         Bukkit.broadcastMessage( plugin.getPrefix() + plugin.getGameManager().getWinningMap().getName() + " by "
                 + plugin.getGameManager().getWinningMap().getAuthor() + " won voting!" );
 
-        File file = plugin.getGameManager().getWinningMap().getMapFile();
+        File file = new File( "/home/thedenmc_gmail_com/SW-1/" + plugin.getGameManager().getWinningMap() );
+
         try
         {
-            if ( file.mkdir() )
-            {
-                FileUtils.copyDirectory( new File( "/home/thedenmc_gmail_com/"
-                        + plugin.getGameManager().getWinningMap().toString() ), file );
-            }
+            FileUtils.copyDirectory( plugin.getGameManager().getWinningMap().getMapFile(), file );
         } catch ( IOException e )
         {
             e.printStackTrace();
@@ -140,9 +137,8 @@ public class LobbyTimer extends BukkitRunnable
             Player player = players[ i ];
             player.setScoreboard( scoreboard );
             player.teleport( plugin.getConfiguration().getSpawnLocations().get( i ) );
+            player.getNearbyEntities( 6, 6, 6 ).stream().filter( entity -> !( entity instanceof Player ) ).forEach( Entity::remove );
             player.addPotionEffect( new PotionEffect( PotionEffectType.DAMAGE_RESISTANCE, 20, 100 ) );
         }
-        Bukkit.getWorld( "Sw-World1" ).getLivingEntities().stream().filter( entity ->
-                !( entity instanceof Player ) ).forEach( Entity::remove );
     }
 }

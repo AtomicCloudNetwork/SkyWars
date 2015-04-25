@@ -22,7 +22,7 @@ public class SkyWarsLoader extends JavaPlugin
             FileUtils.deleteDirectory( file );
             for ( SkyWarsMap map : SkyWarsMap.values() )
             {
-                File mapFile = map.getMapFile();
+                File mapFile = new File( "/home/thedenmc_gmail_com/SW-1/" + map.toString() );
                 if ( mapFile.exists() )
                 {
                     FileUtils.deleteDirectory( mapFile );
