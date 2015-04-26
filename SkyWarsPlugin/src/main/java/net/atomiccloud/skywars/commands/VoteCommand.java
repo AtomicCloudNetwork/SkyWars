@@ -67,14 +67,14 @@ public class VoteCommand implements CommandExecutor
                     plugin.getGameManager().getVotes().put( map.name(), plugin
                             .getGameManager().getVotes().get( map.name() ) + 1 );
                     p.sendMessage( plugin.getPrefix() + "You have voted for " + map.getName() +
-                            " by " + new ArrayBuilder(  map.getAuthors(), " & " ) + "." );
+                            " by " + new ArrayBuilder( map.getAuthors(), " & " ).toString() + "." );
                     break;
                 case 2:
                     map = plugin.getGameManager().getMaps()[ 1 ];
                     plugin.getGameManager().getVotes().put( map.name(), plugin
                             .getGameManager().getVotes().get( map.name() ) + 1 );
                     p.sendMessage( plugin.getPrefix() + "You have voted for " + map.getName() +
-                            " by " + new ArrayBuilder(  map.getAuthors(), " & " ) + "." );
+                            " by " + new ArrayBuilder( map.getAuthors(), " & " ).toString() + "." );
                     break;
                 case 3:
                     plugin.getGameManager().getVotes().put( "Random",
