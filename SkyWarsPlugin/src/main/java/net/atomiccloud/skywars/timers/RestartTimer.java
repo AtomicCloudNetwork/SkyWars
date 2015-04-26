@@ -21,10 +21,7 @@ public class RestartTimer extends BukkitRunnable
     @Override
     public void run()
     {
-        for ( Player player : Bukkit.getOnlinePlayers() )
-        {
-            player.setLevel( countdown );
-        }
+        for ( Player player : Bukkit.getOnlinePlayers() ) player.setLevel( countdown );
         switch ( countdown )
         {
             case 10:
@@ -47,7 +44,9 @@ public class RestartTimer extends BukkitRunnable
         countdown--;
     }
 
-    private void broadcastMessage() {
-        Bukkit.broadcastMessage( plugin.getPrefix() + ChatColor.GOLD + "Game is restarting in " + countdown + " seconds." );
+    private void broadcastMessage()
+    {
+        Bukkit.broadcastMessage( plugin.getPrefix() + ChatColor.GOLD + "Game is restarting in " + countdown + " " +
+                "seconds." );
     }
 }

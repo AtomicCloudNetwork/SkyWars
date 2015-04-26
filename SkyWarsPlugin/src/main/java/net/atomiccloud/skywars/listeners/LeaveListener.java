@@ -42,23 +42,21 @@ public class LeaveListener implements Listener
             plugin.getGameManager().getSpectators().remove( player.getName() );
         if ( plugin.getGameManager().getGameState().equals( GameState.LOBBY_COUNTDOWN ) )
         {
-            if ( Bukkit.getServer().getOnlinePlayers().size() < 2 )
+            if ( plugin.getGameManager().getPlayersInGame().size() < 2 )
             {
                 plugin.getGameManager().setGameState( GameState.PRE_GAME );
                 Bukkit.broadcastMessage( plugin.getPrefix() + "Game timer had ended not enough players to start!" );
             }
         }
 
-        if ( plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) )
+        if ( !plugin.getGameManager().getGameState().equals( GameState.PRE_GAME ) &&
+                !plugin.getGameManager().getGameState().equals( GameState.LOBBY_COUNTDOWN ) )
         {
-            if ( Bukkit.getServer().getOnlinePlayers().size() < 2 )
+            if ( plugin.getGameManager().getPlayersInGame().size() == 1 )
             {
-                if ( plugin.getGameManager().getPlayersInGame().size() == 1 )
-                {
-                    Player winner = Bukkit.getPlayer( plugin.getGameManager().getPlayersInGame().get( 0 ) );
-                    Redis.addCoins( winner, 500 );
-                    Bukkit.broadcastMessage( plugin.getPrefix() + winner.getName() + " has won the game!" );
-                }
+                Player winner = Bukkit.getPlayer( plugin.getGameManager().getPlayersInGame().get( 0 ) );
+                Redis.addCoins( winner, 500 );
+                Bukkit.broadcastMessage( plugin.getPrefix() + winner.getName() + " has won the game!" );
                 Bukkit.broadcastMessage( ChatColor.RED + "Server ran out of players." );
                 Bukkit.getOnlinePlayers().forEach( BungeeCord::toHub );
                 Bukkit.shutdown();

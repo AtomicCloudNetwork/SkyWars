@@ -23,10 +23,7 @@ public class GameTimer extends BukkitRunnable
     @Override
     public void run()
     {
-        for ( Player player : Bukkit.getOnlinePlayers() )
-        {
-            player.setLevel( countdown );
-        }
+        for ( Player player : Bukkit.getOnlinePlayers() ) player.setLevel( countdown );
         switch ( countdown )
         {
             case 500:

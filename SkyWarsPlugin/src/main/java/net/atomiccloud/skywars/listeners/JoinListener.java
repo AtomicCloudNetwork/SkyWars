@@ -3,6 +3,7 @@ package net.atomiccloud.skywars.listeners;
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -42,6 +43,7 @@ public class JoinListener implements Listener
             int players = Bukkit.getServer().getOnlinePlayers().size();
             if ( players >= 2 )
             {
+                Bukkit.broadcastMessage( plugin.getPrefix() + ChatColor.GREEN + "Game starting in 60 seconds." );
                 plugin.getGameManager().setGameState( GameState.LOBBY_COUNTDOWN );
             }
         }

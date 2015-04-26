@@ -4,6 +4,7 @@ import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.listeners.MoveListener;
 import net.atomiccloud.skywars.util.BungeeCord;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -19,11 +20,12 @@ public class DeathMatchTimer extends BukkitRunnable
 
     private int countdown = 130;
 
-    private MoveListener listener = new MoveListener( plugin );
+    private MoveListener listener;
 
     public DeathMatchTimer(SkyWarsPlugin plugin)
     {
         this.plugin = plugin;
+        listener = new MoveListener( plugin );
         plugin.getServer().getPluginManager().registerEvents(
                 listener, plugin );
     }
@@ -31,6 +33,7 @@ public class DeathMatchTimer extends BukkitRunnable
     @Override
     public void run()
     {
+        for ( Player player : Bukkit.getOnlinePlayers() ) player.setLevel( countdown );
         switch ( countdown )
         {
             case 130:

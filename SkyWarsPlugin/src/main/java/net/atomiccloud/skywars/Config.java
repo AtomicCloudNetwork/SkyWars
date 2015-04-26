@@ -16,13 +16,15 @@ public class Config
 
     private SkyWarsPlugin plugin;
 
-    public Config(SkyWarsPlugin plugin)
+    public Config(SkyWarsPlugin plugin, World world)
     {
         this.plugin = plugin;
-        World world = Bukkit.getServer().getWorld( "Sw-World1" );
-        spawnLocation = new Location( world, -398.503D, 114.0D, -279.489D );
-        plugin.getConfig().getStringList( "death-match-locs" ).forEach( s ->
-                getDeathMatchLocations().add( locationFromString( s ) ) );
+        if ( world != null )
+        {
+            spawnLocation = new Location( world, -398.503D, 114.0D, -279.489D );
+            plugin.getConfig().getStringList( "death-match-locs" ).forEach( s ->
+                    getDeathMatchLocations().add( locationFromString( s ) ) );
+        }
     }
 
     public Location getSpawnLocation()

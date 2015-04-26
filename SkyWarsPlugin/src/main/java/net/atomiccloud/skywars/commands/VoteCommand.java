@@ -3,6 +3,7 @@ package net.atomiccloud.skywars.commands;
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;
 import net.atomiccloud.skywars.game.SkyWarsMap;
+import net.atomiccloud.skywars.util.ArrayBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -66,14 +67,14 @@ public class VoteCommand implements CommandExecutor
                     plugin.getGameManager().getVotes().put( map.name(), plugin
                             .getGameManager().getVotes().get( map.name() ) + 1 );
                     p.sendMessage( plugin.getPrefix() + "You have voted for " + map.getName() +
-                            " by " + map.getAuthor() + "." );
+                            " by " + new ArrayBuilder(  map.getAuthors(), " & " ) + "." );
                     break;
                 case 2:
                     map = plugin.getGameManager().getMaps()[ 1 ];
                     plugin.getGameManager().getVotes().put( map.name(), plugin
                             .getGameManager().getVotes().get( map.name() ) + 1 );
                     p.sendMessage( plugin.getPrefix() + "You have voted for " + map.getName() +
-                            " by " + map.getAuthor() + "." );
+                            " by " + new ArrayBuilder(  map.getAuthors(), " & " ) + "." );
                     break;
                 case 3:
                     plugin.getGameManager().getVotes().put( "Random",

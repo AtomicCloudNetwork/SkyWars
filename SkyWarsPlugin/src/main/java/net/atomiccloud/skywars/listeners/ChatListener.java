@@ -20,7 +20,7 @@ public class ChatListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void onAsyncPlayerChat(AsyncPlayerChatEvent event)
     {
-        if ( !plugin.getGameManager().getPlayersInGame().contains( event.getPlayer().getName() ) )
+        if ( plugin.getGameManager().getSpectators().contains( event.getPlayer().getName() ) )
         {
             event.setFormat( ChatColor.GRAY + "[SPECTATOR] " + event.getFormat() );
             event.getRecipients().stream().filter( player ->

@@ -2,11 +2,14 @@ package net.atomiccloud.skywars.commands;
 
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,99 +31,87 @@ public class SkyWarsCommand implements CommandExecutor
         {
             return true;
         }
-        Player p = (Player) sender;
+        Player player = (Player) sender;
 
-        if ( args.length == 0 )
+        if ( args.length < 1 )
         {
-            p.sendMessage( "Please Specify an action!" );
-            plugin.getConfig().set( "World", p.getWorld().getName() );
+            player.sendMessage( ChatColor.RED + "Please Specify an action!" );
             return true;
         }
 
-        if ( args[ 0 ].equalsIgnoreCase( "forcedeathmatch" ) )
+        switch ( args[ 0 ].toLowerCase() )
         {
-            if ( plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) )
-            {
-                plugin.getGameManager().setGameState( GameState.DEATH_MATCH );
-            } else
-            {
-                p.sendMessage( ChatColor.RED + "nope.avi" );
-            }
-        }
-        if ( args[ 0 ].equalsIgnoreCase( "setspawn" ) )
-        {
-            if ( args.length == 2 )
-            {
-                List<String> strings = plugin.getConfig().getStringList( args[ 1 ] + "spawn-locs" ) != null
-                        ? plugin.getConfig().getStringList( args[ 1 ] + "spawn-locs" ) : new ArrayList<>();
-                strings.add( p.getLocation().getWorld().getName() + "," +
-                        String.valueOf( p.getLocation().getX() ) + "," +
-                        String.valueOf( p.getLocation().getY() ) + "," +
-                        String.valueOf( p.getLocation().getZ() ) + "," +
-                        String.valueOf( p.getLocation().getYaw() ) + "," +
-                        String.valueOf( p.getLocation().getPitch() ) );
-                plugin.getConfig().set( args[ 1 ] + "spawn-locs", strings );
-                plugin.getConfiguration().getSpawnLocations().add( p.getLocation() );
-                plugin.saveConfig();
-                p.sendMessage( ChatColor.RED + "Spawn has been set!" );
-            } else
-            {
-                sender.sendMessage( ChatColor.RED + "Usage: /skywars setspawn <mapname>" );
-            }
-        }
-        if ( args[ 0 ].equalsIgnoreCase( "setLobby" ) )
-        {
-            plugin.getConfig().set( "lobby.world", p.getLocation().getWorld().getName() );
-            plugin.getConfig().set( "lobby.x", p.getLocation().getX() );
-            plugin.getConfig().set( "lobby.y", p.getLocation().getY() );
-            plugin.getConfig().set( "lobby.z", p.getLocation().getZ() );
-            plugin.saveConfig();
-            p.sendMessage( ChatColor.RED + "Lobby has been set!" );
-        }
-        if ( args[ 0 ].equalsIgnoreCase( "settier1npc" ) )
-        {
-            plugin.getConfig().set( "tier1.world", p.getLocation().getWorld().getName() );
-            plugin.getConfig().set( "tier1.x", p.getLocation().getX() );
-            plugin.getConfig().set( "tier1.y", p.getLocation().getY() );
-            plugin.getConfig().set( "tier1.z", p.getLocation().getZ() );
-            plugin.saveConfig();
-            p.sendMessage( ChatColor.RED + "NPC spawn has been added!" );
-        }
-        if ( args[ 0 ].equalsIgnoreCase( "setdeathspawn" ) )
-        {
-            List<String> strings = plugin.getConfig().getStringList( "death-match-locs" ) != null
-                    ? plugin.getConfig().getStringList( "death-match-locs" ) : new ArrayList<>();
-            strings.add( p.getLocation().getWorld().getName() + "," +
-                    String.valueOf( p.getLocation().getX() ) + "," +
-                    String.valueOf( p.getLocation().getY() ) + "," +
-                    String.valueOf( p.getLocation().getZ() ) + "," +
-                    String.valueOf( p.getLocation().getYaw() ) + "," +
-                    String.valueOf( p.getLocation().getPitch() ) );
-            plugin.getConfig().set( "death-match-locs", strings );
-            plugin.getConfiguration().getSpawnLocations().add( p.getLocation() );
-            plugin.saveConfig();
-            p.sendMessage( ChatColor.RED + "Death Spawn has been added!" );
-        }
-        if ( args[ 0 ].equalsIgnoreCase( "setspecspawn" ) )
-        {
-            if ( args.length == 2 )
-            {
-                plugin.getConfig().set( args[ 1 ] + "specspawn.world", p.getLocation().getWorld().getName() );
-                plugin.getConfig().set( args[ 1 ] + "specspawn.game.x", p.getLocation().getX() );
-                plugin.getConfig().set( args[ 1 ] + "specspawn.game.y", p.getLocation().getY() );
-                plugin.getConfig().set( args[ 1 ] + "specspawn.game.z", p.getLocation().getZ() );
-                plugin.saveConfig();
-                p.sendMessage( ChatColor.RED + "Spec spawn has been set!" );
-            } else
-            {
-                p.sendMessage( ChatColor.RED + "Usage: /skywars setspecspawn <mapname>" );
-            }
-        }
-        if ( args[ 0 ].equalsIgnoreCase( "setmap" ) )
-        {
-            plugin.getConfig().set( "map.name", args[ 1 ] );
-            plugin.saveConfig();
+            case "forcedeathmatch":
+                if ( plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) )
+                {
+                    plugin.getGameManager().setGameState( GameState.DEATH_MATCH );
+                    for ( int i = 0; i < plugin.getGameManager().getPlayersInGame().size(); i++ )
+                    {
+                        Player tempPlayer = Bukkit.getPlayer( plugin.getGameManager().getPlayersInGame().get( i ) );
+                        tempPlayer.addPotionEffect( new PotionEffect(
+                                PotionEffectType.DAMAGE_RESISTANCE, 20 * 10, 10, false, false ) );
+                        tempPlayer.teleport( plugin.getConfiguration().getDeathMatchLocations().get( i ) );
+                    }
+                } else
+                {
+                    player.sendMessage( ChatColor.RED + "nope.avi" );
+                }
+                break;
+            case "setspawn":
+                if ( args.length == 2 )
+                {
+                    handleSetSpawn( player, args[ 1 ] );
+                } else
+                {
+                    sender.sendMessage( ChatColor.RED + "Usage: /skywars setspawn <mapname>" );
+                }
+                break;
+            case "setlobby":
+                handleSetLobby( player );
+            break;
+            case "setdeathspawn":
+                handleSetDeathmatchSpawn( player );
+                break;
         }
         return true;
+    }
+
+    private void handleSetSpawn(Player player, String mapName)
+    {
+        List<String> strings = plugin.getConfig().getStringList( mapName + "spawn-locs" ) != null
+                ? plugin.getConfig().getStringList( mapName + "spawn-locs" ) : new ArrayList<>();
+        strings.add( player.getLocation().getWorld().getName() + "," +
+                String.valueOf( player.getLocation().getX() ) + "," +
+                String.valueOf( player.getLocation().getY() ) + "," +
+                String.valueOf( player.getLocation().getZ() ) + "," +
+                String.valueOf( player.getLocation().getYaw() ) + "," +
+                String.valueOf( player.getLocation().getPitch() ) );
+        plugin.getConfig().set( mapName + "spawn-locs", strings );
+        plugin.saveConfig();
+        player.sendMessage( ChatColor.RED + "Spawn has been set!" );
+    }
+
+    private void handleSetDeathmatchSpawn(Player player) {
+        List<String> strings = plugin.getConfig().getStringList( "death-match-locs" ) != null
+                ? plugin.getConfig().getStringList( "death-match-locs" ) : new ArrayList<>();
+        strings.add( player.getLocation().getWorld().getName() + "," +
+                String.valueOf( player.getLocation().getX() ) + "," +
+                String.valueOf( player.getLocation().getY() ) + "," +
+                String.valueOf( player.getLocation().getZ() ) + "," +
+                String.valueOf( player.getLocation().getYaw() ) + "," +
+                String.valueOf( player.getLocation().getPitch() ) );
+        plugin.getConfig().set( "death-match-locs", strings );
+        plugin.getConfiguration().getSpawnLocations().add( player.getLocation() );
+        plugin.saveConfig();
+        player.sendMessage( ChatColor.RED + "Death Spawn has been added!" );
+    }
+
+    private void handleSetLobby(Player player) {
+        plugin.getConfig().set( "lobby.world", player.getLocation().getWorld().getName() );
+        plugin.getConfig().set( "lobby.x", player.getLocation().getX() );
+        plugin.getConfig().set( "lobby.y", player.getLocation().getY() );
+        plugin.getConfig().set( "lobby.z", player.getLocation().getZ() );
+        plugin.saveConfig();
+        player.sendMessage( ChatColor.RED + "Lobby has been set!" );
     }
 }

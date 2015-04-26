@@ -5,7 +5,7 @@ import net.atomiccloud.skywars.timers.DeathMatchTimer;
 import net.atomiccloud.skywars.timers.GameTimer;
 import net.atomiccloud.skywars.timers.LobbyTimer;
 import net.atomiccloud.skywars.timers.RestartTimer;
-import net.atomiccloud.skywars.util.BukkitRunnable;
+import net.atomiccloud.skywars.util.ArrayBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -16,7 +16,6 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import java.security.SecureRandom;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class GameManager
 {
@@ -96,10 +95,12 @@ public class GameManager
         player.sendMessage( ChatColor.GOLD + "Vote for a map with /vote #" );
         player.sendMessage( ChatColor.translateAlternateColorCodes( '&', "&6&l1. &6"
                 + getMaps()[ 0 ].getName() +
-                " (&b" + getVotes().get( getMaps()[ 0 ].name() ) + " votes&6)" ) );
+                " (&b" + getVotes().get( getMaps()[ 0 ].name() ) + " votes&6) &7by "
+                + new ArrayBuilder( getMaps()[ 0 ].getAuthors(), " & " ).toString() + "." ) );
         player.sendMessage( ChatColor.translateAlternateColorCodes( '&', "&6&l2. &6" +
                 getMaps()[ 1 ].getName() + " (&b" +
-                getVotes().get( getMaps()[ 1 ].name() ) + " votes&6)" ) );
+                getVotes().get( getMaps()[ 1 ].name() ) + " votes&6) &7by "
+                + new ArrayBuilder( getMaps()[ 1 ].getAuthors(), " & " ).toString() + "." ) );
         player.sendMessage( ChatColor.translateAlternateColorCodes( '&', "&6&l3. &3" +
                 "Random" + " &6(&b" + getVotes().get( "Random" ) + " votes&6)" ) );
     }

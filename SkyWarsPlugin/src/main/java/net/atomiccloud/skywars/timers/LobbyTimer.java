@@ -3,6 +3,7 @@ package net.atomiccloud.skywars.timers;
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;
 import net.atomiccloud.skywars.game.SkyWarsMap;
+import net.atomiccloud.skywars.util.ArrayBuilder;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -35,14 +36,9 @@ public class LobbyTimer extends BukkitRunnable
     @Override
     public void run()
     {
-        for ( Player player : Bukkit.getOnlinePlayers() )
-        {
-            player.setLevel( countdown );
-        }
+        for ( Player player : Bukkit.getOnlinePlayers() ) player.setLevel( countdown );
         switch ( countdown )
         {
-            case 60:
-                broadcastMessage();
             case 50:
                 broadcastMessage();
                 break;
@@ -105,7 +101,8 @@ public class LobbyTimer extends BukkitRunnable
                             plugin.getGameManager().getRandom().nextInt( SkyWarsMap.values().length - 2 ) ) );
         }
         Bukkit.broadcastMessage( plugin.getPrefix() + plugin.getGameManager().getWinningMap().getName() + " by "
-                + plugin.getGameManager().getWinningMap().getAuthor() + " won voting!" );
+                + new ArrayBuilder( plugin.getGameManager().getWinningMap().getAuthors(),
+                " & " ).toString() + " won voting!" );
 
         File file = new File( "/home/thedenmc_gmail_com/SW-1/" + plugin.getGameManager().getWinningMap() );
 

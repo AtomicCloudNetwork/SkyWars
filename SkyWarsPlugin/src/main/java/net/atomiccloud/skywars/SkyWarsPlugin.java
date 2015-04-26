@@ -6,6 +6,7 @@ import net.atomiccloud.skywars.game.GameManager;
 import net.atomiccloud.skywars.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,7 +14,7 @@ public class SkyWarsPlugin extends JavaPlugin
 {
 
     private static SkyWarsPlugin plugin;
-    public String prefix = ChatColor.GRAY + "[" + ChatColor.RED + "SkyWars" + ChatColor.GRAY + "] ";
+    private String prefix = ChatColor.GRAY + "[" + ChatColor.RED + "SkyWars" + ChatColor.GRAY + "] ";
 
     private GameManager gameManager;
     private Config config;
@@ -23,10 +24,14 @@ public class SkyWarsPlugin extends JavaPlugin
     {
         plugin = this;
         saveDefaultConfig();
-        config = new Config( this );
+        World world = getServer().getWorld( "Sw-World1" );
+        config = new Config( this, world );
         gameManager = new GameManager( this );
-        Bukkit.getServer().getWorld( "Sw-World1" ).setMonsterSpawnLimit( 0 );
-        Bukkit.getServer().getWorld( "Sw-World1" ).setStorm( false );
+        if ( world != null )
+        {
+            Bukkit.getServer().getWorld( "Sw-World1" ).setMonsterSpawnLimit( 0 );
+            Bukkit.getServer().getWorld( "Sw-World1" ).setStorm( false );
+        }
         Bukkit.getMessenger().registerOutgoingPluginChannel( this, "BungeeCord" );
         getCommand( "vote" ).setExecutor( new VoteCommand( this ) );
         getCommand( "skywars" ).setExecutor( new SkyWarsCommand( this ) );

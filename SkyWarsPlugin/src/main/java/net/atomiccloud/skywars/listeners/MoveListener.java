@@ -18,9 +18,9 @@ public class MoveListener implements Listener
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event)
     {
-        if ( plugin.getGameManager().getPlayersInGame().contains( event.getPlayer().getName() ) )
+        if ( !plugin.getGameManager().getSpectators().contains( event.getPlayer().getName() ) )
         {
-            event.setCancelled( true );
+            event.setTo( event.getFrom() );
         }
     }
 }
