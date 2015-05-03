@@ -31,7 +31,7 @@ public class VoteCommand implements CommandExecutor
         if ( !plugin.getGameManager().getGameState().equals( GameState.PRE_GAME ) &&
                 !plugin.getGameManager().getGameState().equals( GameState.LOBBY_COUNTDOWN ) )
         {
-            sender.sendMessage( ChatColor.RED + "Voting not active right now!" );
+            sender.sendMessage( ChatColor.RED + "Voting isn't active right now!" );
             return true;
         }
         if ( sender instanceof Player )
@@ -39,7 +39,7 @@ public class VoteCommand implements CommandExecutor
             Player p = (Player) sender;
             if ( playersThatVoted.contains( p.getUniqueId() ) )
             {
-                p.sendMessage( ChatColor.RED + "You already voted!" );
+                p.sendMessage( ChatColor.RED + "You have already voted!" );
                 return true;
             }
             if ( args.length != 1 )
