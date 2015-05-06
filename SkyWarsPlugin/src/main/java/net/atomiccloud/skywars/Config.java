@@ -2,7 +2,6 @@ package net.atomiccloud.skywars;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +13,16 @@ public class Config
     public List<Location> spawnLocations = new ArrayList<>();
     public List<Location> deathMatchLocations = new ArrayList<>();
 
+
     private SkyWarsPlugin plugin;
 
-    public Config(SkyWarsPlugin plugin, World world)
+    public Config(SkyWarsPlugin plugin)
     {
         this.plugin = plugin;
-        if ( world != null )
-        {
-            spawnLocation = new Location( world, -398.503D, 114.0D, -279.489D );
-            plugin.getConfig().getStringList( "death-match-locs" ).forEach( s ->
-                    getDeathMatchLocations().add( locationFromString( s ) ) );
-        }
+
+        spawnLocation = new Location( Bukkit.getWorld( "Sw-world1" ), -398.503D, 114.0D, -279.489D );
+        plugin.getConfig().getStringList( "death-match-locs" ).forEach( s ->
+                getDeathMatchLocations().add( locationFromString( s ) ) );
     }
 
     public Location getSpawnLocation()

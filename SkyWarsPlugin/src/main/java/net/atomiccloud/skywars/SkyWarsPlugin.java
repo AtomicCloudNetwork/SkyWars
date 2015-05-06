@@ -1,19 +1,25 @@
 package net.atomiccloud.skywars;
 
+import com.google.gson.Gson;
 import net.atomiccloud.skywars.commands.SkyWarsCommand;
 import net.atomiccloud.skywars.commands.VoteCommand;
 import net.atomiccloud.skywars.game.GameManager;
 import net.atomiccloud.skywars.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class SkyWarsPlugin extends JavaPlugin
 {
 
     private static SkyWarsPlugin plugin;
+    private Gson gson = new Gson();
     private String prefix = ChatColor.GRAY + "[" + ChatColor.RED + "SkyWars" + ChatColor.GRAY + "] ";
 
     private GameManager gameManager;
@@ -24,14 +30,11 @@ public class SkyWarsPlugin extends JavaPlugin
     {
         plugin = this;
         saveDefaultConfig();
-        World world = getServer().getWorld( "Sw-World1" );
-        config = new Config( this, world );
+        config = new Config( this );
         gameManager = new GameManager( this );
-        if ( world != null )
-        {
-            Bukkit.getServer().getWorld( "Sw-World1" ).setMonsterSpawnLimit( 0 );
-            Bukkit.getServer().getWorld( "Sw-World1" ).setStorm( false );
-        }
+        handleMaps();
+        config.getSpawnLocation().getWorld().setMonsterSpawnLimit( 0 );
+        config.getSpawnLocation().getWorld().setStorm( false );
         Bukkit.getMessenger().registerOutgoingPluginChannel( this, "BungeeCord" );
         getCommand( "vote" ).setExecutor( new VoteCommand( this ) );
         getCommand( "skywars" ).setExecutor( new SkyWarsCommand( this ) );
@@ -52,6 +55,41 @@ public class SkyWarsPlugin extends JavaPlugin
                 new ChatListener( this ) } )
         {
             getServer().getPluginManager().registerEvents( listener, this );
+        }
+    }
+
+    private void handleMaps()
+    {
+        File file = new File( getDataFolder().getPath() + File.separator + "maps" );
+        if ( !file.exists() )
+        {
+            try
+            {
+                file.createNewFile();
+            } catch ( IOException e )
+            {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        File[] files = file.listFiles();
+        if ( files != null )
+        {
+            for ( File tempFile : files )
+            {
+                if ( tempFile.getName().endsWith( ".json" ) )
+                {
+                    try
+                    {
+                        SkyWarsMap map = gson.fromJson( new FileReader( tempFile ), SkyWarsMap.class );
+                        getGameManager().getMapList().add( map );
+                    } catch ( FileNotFoundException e )
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
     }
 

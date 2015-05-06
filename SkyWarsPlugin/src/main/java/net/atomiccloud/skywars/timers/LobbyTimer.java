@@ -40,29 +40,13 @@ public class LobbyTimer extends BukkitRunnable
         switch ( countdown )
         {
             case 50:
-                broadcastMessage();
-                break;
             case 30:
-                broadcastMessage();
-                break;
             case 20:
-                broadcastMessage();
-                break;
             case 10:
-                broadcastMessage();
-                break;
             case 5:
-                broadcastMessage();
-                break;
             case 4:
-                broadcastMessage();
-                break;
             case 3:
-                broadcastMessage();
-                break;
             case 2:
-                broadcastMessage();
-                break;
             case 1:
                 broadcastMessage();
                 break;
@@ -100,7 +84,8 @@ public class LobbyTimer extends BukkitRunnable
                     plugin.getGameManager().getMapList().get(
                             plugin.getGameManager().getRandom().nextInt( SkyWarsMap.values().length - 2 ) ) );
         }
-        Bukkit.broadcastMessage( plugin.getPrefix() + plugin.getGameManager().getWinningMap().getName() + " by "
+        Bukkit.broadcastMessage(
+                plugin.getPrefix() + plugin.getGameManager().getWinningMap().getName() + " by "
                 + new ArrayBuilder( plugin.getGameManager().getWinningMap().getAuthors(),
                 " & " ).toString() + " won voting!" );
 
