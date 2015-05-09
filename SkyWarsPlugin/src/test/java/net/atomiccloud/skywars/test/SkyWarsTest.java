@@ -3,9 +3,6 @@ package net.atomiccloud.skywars.test;
 import com.google.gson.Gson;
 import net.atomiccloud.skywars.SkyWarsMap;
 import net.atomiccloud.skywars.util.ArrayBuilder;
-import net.atomiccloud.skywars.util.ListBuilder;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.junit.Test;
 
 import java.io.File;
@@ -35,4 +32,6 @@ public class SkyWarsTest
                 new File( "/home/PandemicDev/LoveLands" ), null );
         System.out.println( new Gson().toJson( map ) );
     }
+
+
 }

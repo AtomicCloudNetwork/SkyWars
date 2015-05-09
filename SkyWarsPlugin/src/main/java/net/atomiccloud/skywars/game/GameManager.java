@@ -1,11 +1,12 @@
 package net.atomiccloud.skywars.game;
 
+import net.atomiccloud.skywars.SkyWarsMap;
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.timers.DeathMatchTimer;
 import net.atomiccloud.skywars.timers.GameTimer;
 import net.atomiccloud.skywars.timers.LobbyTimer;
 import net.atomiccloud.skywars.timers.RestartTimer;
-import net.atomiccloud.skywars.util.ArrayBuilder;
+import net.atomiccloud.skywars.util.ListBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -43,15 +44,15 @@ public class GameManager
     public GameManager(SkyWarsPlugin plugin)
     {
         this.plugin = plugin;
-        getMapList().addAll( Arrays.asList( SkyWarsMap.values() ) );
-        maps[ 0 ] = SkyWarsMap.getRandom( getRandom() );
+
+        maps[ 0 ] = mapList.get( getRandom().nextInt( mapList.size() ) );
         getMapList().remove( maps[ 0 ] );
-        maps[ 1 ] = mapList.get( getRandom().nextInt( SkyWarsMap.values().length - 1 ) );
+        maps[ 1 ] = mapList.get( getRandom().nextInt( mapList.size() ) );
         getMapList().remove( maps[ 1 ] );
 
         for ( SkyWarsMap map : maps )
         {
-            votes.put( map.name(), 0 );
+            votes.put( map.getName(), 0 );
         }
         votes.put( "Random", 0 );
         makeScoreboard();
@@ -95,12 +96,12 @@ public class GameManager
         player.sendMessage( ChatColor.GOLD + "Vote for a map with /vote #" );
         player.sendMessage( ChatColor.translateAlternateColorCodes( '&', "&6&l1. &6"
                 + getMaps()[ 0 ].getName() +
-                " (&b" + getVotes().get( getMaps()[ 0 ].name() ) + " votes&6) &7by "
-                + new ArrayBuilder( getMaps()[ 0 ].getAuthors(), " & " ).toString() + "." ) );
+                " (&b" + getVotes().get( getMaps()[ 0 ].getName() ) + " votes&6) &7by "
+                + new ListBuilder<String>( getMaps()[ 0 ].getAuthors(), " & " ).toString() + "." ) );
         player.sendMessage( ChatColor.translateAlternateColorCodes( '&', "&6&l2. &6" +
                 getMaps()[ 1 ].getName() + " (&b" +
-                getVotes().get( getMaps()[ 1 ].name() ) + " votes&6) &7by "
-                + new ArrayBuilder( getMaps()[ 1 ].getAuthors(), " & " ).toString() + "." ) );
+                getVotes().get( getMaps()[ 1 ].getName() ) + " votes&6) &7by "
+                + new ListBuilder<String>( getMaps()[ 1 ].getAuthors(), " & " ).toString() + "." ) );
         player.sendMessage( ChatColor.translateAlternateColorCodes( '&', "&6&l3. &3" +
                 "Random" + " &6(&b" + getVotes().get( "Random" ) + " votes&6)" ) );
     }
@@ -114,9 +115,9 @@ public class GameManager
         objective.setDisplaySlot( DisplaySlot.SIDEBAR );
 
         objective.getScore( ChatColor.GOLD + "1. " +
-                ChatColor.GRAY + getMaps()[ 0 ].getName() ).setScore( votes.get( getMaps()[ 0 ].name() ) );
+                ChatColor.GRAY + getMaps()[ 0 ].getName() ).setScore( votes.get( getMaps()[ 0 ].getName() ) );
         objective.getScore( ChatColor.GOLD + "2. " +
-                ChatColor.GRAY + getMaps()[ 1 ].getName() ).setScore( votes.get( getMaps()[ 1 ].name() ) );
+                ChatColor.GRAY + getMaps()[ 1 ].getName() ).setScore( votes.get( getMaps()[ 1 ].getName() ) );
         objective.getScore( ChatColor.GOLD + "3. " +
                 ChatColor.DARK_AQUA + "Random" ).setScore( votes.get( "Random" ) );
     }
@@ -129,18 +130,28 @@ public class GameManager
             case 1:
                 votesBoard.getObjective( "votes" ).getScore(
                         ChatColor.GOLD + "1. " + ChatColor.GRAY + getMaps()[ 0 ].getName() ).setScore(
-                        votes.get( getMaps()[ 0 ].name() ) );
+                        votes.get( getMaps()[ 0 ].getName() ) );
                 break;
             case 2:
                 votesBoard.getObjective( "votes" ).getScore(
                         ChatColor.GOLD + "2. " + ChatColor.GRAY + getMaps()[ 1 ].getName() ).setScore(
-                        votes.get( getMaps()[ 1 ].name() ) );
+                        votes.get( getMaps()[ 1 ].getName() ) );
                 break;
             case 3:
                 votesBoard.getObjective( "votes" ).getScore(
                         ChatColor.GOLD + "3. " + ChatColor.DARK_AQUA + "Random" ).setScore( votes.get( "Random" ) );
                 break;
         }
+    }
+
+    public SkyWarsMap mapFromString(String mapName)
+    {
+        for ( SkyWarsMap map : getMapList() )
+        {
+            if ( mapName.equals( map.getName() ) ) return map;
+        }
+
+        return null;
     }
 
     public SkyWarsMap[] getMaps()

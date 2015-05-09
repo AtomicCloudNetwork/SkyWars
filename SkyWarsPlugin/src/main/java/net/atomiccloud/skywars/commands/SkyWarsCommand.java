@@ -1,5 +1,6 @@
 package net.atomiccloud.skywars.commands;
 
+import net.atomiccloud.skywars.SkyWarsMap;
 import net.atomiccloud.skywars.SkyWarsPlugin;
 import net.atomiccloud.skywars.game.GameState;
 import org.bukkit.Bukkit;
@@ -18,6 +19,8 @@ public class SkyWarsCommand implements CommandExecutor
 {
 
     private SkyWarsPlugin plugin;
+
+    private SkyWarsMap map;
 
     public SkyWarsCommand(SkyWarsPlugin plugin)
     {
