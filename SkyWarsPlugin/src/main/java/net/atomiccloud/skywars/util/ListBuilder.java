@@ -1,5 +1,7 @@
 package net.atomiccloud.skywars.util;
 
+import com.google.common.base.Preconditions;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class ListBuilder<E>
     @Override
     public String toString()
     {
+        Preconditions.checkArgument( list instanceof List<String>, "..." );
         StringBuilder stringBuilder = new StringBuilder();
         for ( String args : (List<String>) list )
         {
