@@ -1,2 +1,2 @@
 # SkyWars
-Atomic-Cloud's SkyWars
+A SkyWars plugin.
