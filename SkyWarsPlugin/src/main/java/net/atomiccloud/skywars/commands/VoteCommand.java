@@ -1,9 +1,8 @@
 package net.atomiccloud.skywars.commands;
 
-import net.atomiccloud.skywars.SkyWarsMap;
 import net.atomiccloud.skywars.SkyWarsPlugin;
+import net.atomiccloud.skywars.common.SkyWarsMap;
 import net.atomiccloud.skywars.game.GameState;
-import net.atomiccloud.skywars.util.ListBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -36,12 +35,14 @@ public class VoteCommand implements CommandExecutor
         }
         if ( sender instanceof Player )
         {
-            Player p = (Player) sender;
+            Player p = ( Player ) sender;
+
             if ( playersThatVoted.contains( p.getUniqueId() ) )
             {
                 p.sendMessage( ChatColor.RED + "You have already voted!" );
                 return true;
             }
+
             if ( args.length != 1 )
             {
                 plugin.getGameManager().sendVoteMessage( p );
@@ -59,35 +60,20 @@ public class VoteCommand implements CommandExecutor
                 return true;
             }
 
-            SkyWarsMap map;
-            switch ( i )
+
+            if ( i >= 1 && i <= plugin.getGameManager().getSelectedMaps().length )
             {
-                case 1:
-                    map = plugin.getGameManager().getMaps()[ 0 ];
-                    plugin.getGameManager().getVotes().put( map.getName(), plugin
-                            .getGameManager().getVotes().get( map.getName() ) + 1 );
-                    p.sendMessage( plugin.getPrefix() + "You have voted for " + map.getName() +
-                            " by " + new ListBuilder<String>( map.getAuthors(), " & " ).toString() + "." );
-                    break;
-                case 2:
-                    map = plugin.getGameManager().getMaps()[ 1 ];
-                    plugin.getGameManager().getVotes().put( map.getName(), plugin
-                            .getGameManager().getVotes().get( map.getName() ) + 1 );
-                    p.sendMessage( plugin.getPrefix() + "You have voted for " + map.getName() +
-                            " by " + new ListBuilder<String>( map.getAuthors(), " & " ).toString() + "." );
-                    break;
-                case 3:
-                    plugin.getGameManager().getVotes().put( "Random",
-                            plugin.getGameManager().getVotes().get( "Random" ) + 1 );
-                    p.sendMessage( plugin.getPrefix() + "You have voted for a " +
-                            ChatColor.DARK_AQUA + "Random" + ChatColor.GRAY + " map." );
-                    break;
-                default:
-                    plugin.getGameManager().sendVoteMessage( p );
-                    break;
+                SkyWarsMap map = plugin.getGameManager().getSelectedMaps()[ i - 1 ];
+                plugin.getGameManager().getVotes().put( map, plugin
+                        .getGameManager().getVotes().get( map ) + 1 );
+                p.sendMessage( plugin.getPrefix() + "You have voted for " + map.getName() +
+                        " by " + map.getAuthorsAsString() + "." );
+                playersThatVoted.add( p.getUniqueId() );
+                plugin.getGameManager().updateScoreboard( i );
+            } else
+            {
+                plugin.getGameManager().sendVoteMessage( p );
             }
-            playersThatVoted.add( p.getUniqueId() );
-            plugin.getGameManager().updateScoreboard( i );
         }
         return true;
     }

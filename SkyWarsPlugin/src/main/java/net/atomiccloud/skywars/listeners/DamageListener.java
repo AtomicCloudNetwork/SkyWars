@@ -1,12 +1,14 @@
 package net.atomiccloud.skywars.listeners;
 
+import net.atomiccloud.skywars.SkyWarsPlayer;
 import net.atomiccloud.skywars.SkyWarsPlugin;
-import net.atomiccloud.skywars.game.GameState;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import net.atomiccloud.skywars.Team;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Wither;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 public class DamageListener implements Listener
@@ -24,23 +26,58 @@ public class DamageListener implements Listener
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event)
     {
+        if ( event.getEntity() instanceof Wither )
+        {
+            event.setCancelled( true );
+            return;
+        }
         if ( event.getEntity() instanceof Player )
         {
-            Player player = (Player) event.getEntity();
-            if ( ( !plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) &&
-                    !plugin.getGameManager().getGameState().equals( GameState.DEATH_MATCH ) ) ||
-                    plugin.getGameManager().getSpectators().contains( player.getName() ) )
+            Player player = ( Player ) event.getEntity();
+            boolean isSpectator = plugin.getGameManager().getPlayer( player.getName() ).getTeam().equals( Team.SPECTATOR );
+            if ( !plugin.getGameManager().getGameState().isPvp() || isSpectator )
             {
                 event.setCancelled( true );
             }
 
-            if ( plugin.getGameManager().getGameState().equals( GameState.PRE_GAME ) ||
-                    plugin.getGameManager().getGameState().equals( GameState.LOBBY_COUNTDOWN ) ||
-                    plugin.getGameManager().getSpectators().contains( player.getName() ) )
+            if ( event.getCause().equals( EntityDamageEvent.DamageCause.VOID ) )
             {
-                if ( event.getCause().equals( EntityDamageEvent.DamageCause.VOID ) )
+                if ( isSpectator )
                 {
-                    event.getEntity().teleport( plugin.getConfiguration().getSpawnLocation() );
+                    player.teleport( plugin.getConfiguration().getSpawnLocation() );
+                } else if ( plugin.getGameManager().getGameState().isPvp() )
+                {
+                    player.damage( 20.0D );
+                }
+            }
+        }
+    }
+
+
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
+    {
+        if ( event.getEntity() instanceof Player )
+        {
+            if ( event.getDamager() instanceof Player )
+            {
+                plugin.getGameManager().getDamageCache().put( event.getEntity().getUniqueId(), event.getDamager().getUniqueId() );
+                SkyWarsPlayer player = plugin.getGameManager().getPlayer( event.getEntity().getName() );
+                SkyWarsPlayer damager = plugin.getGameManager().getPlayer( event.getDamager().getName() );
+                //player.getGameBoard().updateHealth();
+                if ( player.getTeam().equals( Team.SPECTATOR )
+                        || damager.getTeam().equals( Team.SPECTATOR ) )
+                {
+                    event.setCancelled( true );
+                }
+            } else if ( event.getDamager() instanceof Projectile )
+            {
+                Projectile projectile = ( Projectile ) event.getDamager();
+                if ( projectile.getShooter() != null
+                        && projectile.getShooter() instanceof Player )
+                {
+                    plugin.getGameManager().getDamageCache().put( event.getEntity().getUniqueId(),
+                            ( ( Player ) projectile.getShooter() ).getUniqueId() );
                 }
             }
         }

@@ -1,0 +1,6 @@
+name: ${project.name}
+version: ${project.version}
+main: net.atomiccloud.skywars.MapMakerPlugin
+commands:
+  config:
+  map:

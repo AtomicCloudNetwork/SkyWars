@@ -9,20 +9,16 @@
     <packaging>pom</packaging>
     <version>0.69b</version>
     <modules>
-        <module>SkyWars-Loader</module>
         <module>SkyWarsPlugin</module>
+        <module>common</module>
+        <module>MapMaker</module>
     </modules>
 
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.8.3-R0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.4</version>
+            <version>1.8.7-R0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

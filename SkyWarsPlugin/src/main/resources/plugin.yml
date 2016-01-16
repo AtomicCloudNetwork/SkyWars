@@ -1,5 +1,6 @@
 name: SkyWars
 version: ${project.version}
+#load: STARTUP
 main: net.atomiccloud.skywars.SkyWarsPlugin
 description: acn skywars
 commands:

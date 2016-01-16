@@ -14,16 +14,21 @@ public class SkyWarsLocation extends Location
         this.worldName = worldName;
     }
 
-    @Override
-    public Location clone()
+    public SkyWarsLocation(Location location)
     {
-        return super.clone();
+        this( location.getWorld().getName(), location.getX(), location.getY(),
+                location.getZ(), location.getYaw(), location.getPitch() );
+    }
+
+    public String getWorldName()
+    {
+        return worldName;
     }
 
     public Location toBukkitLocation()
     {
         if ( getWorld() == null )
-            setWorld( Bukkit.getWorld( worldName ) );
+            setWorld( Bukkit.getWorld( getWorldName() ) );
         return this;
     }
 }

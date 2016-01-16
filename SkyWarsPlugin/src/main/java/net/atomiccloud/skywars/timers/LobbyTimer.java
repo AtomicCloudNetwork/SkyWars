@@ -1,31 +1,26 @@
 package net.atomiccloud.skywars.timers;
 
+import me.Bogdacutu.VoidGenerator.VoidGeneratorGenerator;
+import net.atomiccloud.skywars.SkyWarsPlayer;
 import net.atomiccloud.skywars.SkyWarsPlugin;
+import net.atomiccloud.skywars.common.SkyWarsLocation;
+import net.atomiccloud.skywars.common.SkyWarsMap;
+import net.atomiccloud.skywars.game.GameBoard;
 import net.atomiccloud.skywars.game.GameState;
-import net.atomiccloud.skywars.util.ListBuilder;
-import org.apache.commons.io.FileUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Sound;
-import org.bukkit.WorldCreator;
-import org.bukkit.entity.Entity;
+import net.atomiccloud.skywars.util.FileUtil;
+import net.atomiccloud.skywars.util.Util;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Scoreboard;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.Map;
+import java.util.*;
 
-public class LobbyTimer extends BukkitRunnable
+public class LobbyTimer extends Timer
 {
 
     private SkyWarsPlugin plugin;
 
-    private int countdown = 60;
+    private int countdown = 30;
 
     public LobbyTimer(SkyWarsPlugin plugin)
     {
@@ -38,7 +33,6 @@ public class LobbyTimer extends BukkitRunnable
         for ( Player player : Bukkit.getOnlinePlayers() ) player.setLevel( countdown );
         switch ( countdown )
         {
-            case 50:
             case 30:
             case 20:
             case 10:
@@ -51,9 +45,9 @@ public class LobbyTimer extends BukkitRunnable
                 break;
             case 0:
                 Bukkit.broadcastMessage( ChatColor.translateAlternateColorCodes(
-                        '&', "&7[&cSkyWars&7] &aGood Luck!" ) );
+                        '&', "&eWhat goes up must come down!" ) );
                 handleGameStart();
-                plugin.getGameManager().setGameState( GameState.IN_GAME );
+                plugin.getGameManager().setGameState( GameState.START_COUNTDOWN );
                 break;
         }
         countdown--;
@@ -62,8 +56,7 @@ public class LobbyTimer extends BukkitRunnable
     private void broadcastMessage()
     {
         Bukkit.broadcastMessage( ChatColor.translateAlternateColorCodes( '&',
-                countdown == 1 ? "&7[&cSkyWars&7] &aGame starting in " + countdown + " second."
-                        : "&7[&cSkyWars&7] &aGame starting in " + countdown + " seconds." ) );
+                "&6Game starting in &c" + Util.formatTime( countdown, false ) + "&6." ) );
         for ( Player players : Bukkit.getOnlinePlayers() )
         {
             players.playSound( players.getLocation(), Sound.NOTE_PLING, 20, 20 );
@@ -72,47 +65,40 @@ public class LobbyTimer extends BukkitRunnable
 
     private void handleGameStart()
     {
-        String mapName = plugin.getGameManager().getVotes().entrySet().stream().max(
+        SkyWarsMap map = plugin.getGameManager().getVotes().entrySet().stream().max(
                 Comparator.comparingInt( Map.Entry::getValue ) ).get().getKey();
-        if ( !mapName.equals( "Random" ) )
+        if ( !map.equals( plugin.getGameManager().getRandomMap() ) )
         {
-            plugin.getGameManager().setWinningMap( plugin.getGameManager().mapFromString( mapName ) );
+            plugin.getGameManager().setWinningMap( map );
         } else
         {
-            plugin.getGameManager().setWinningMap(
-                    plugin.getGameManager().getMapList().get(
-                            plugin.getGameManager().getRandom().nextInt( plugin.getGameManager().getMapList().size()
-                            ) ) );
+            plugin.getGameManager().setWinningMap( plugin.getGameManager().getMaps().get( plugin.getGameManager().getRandom()
+                    .nextInt( plugin.getGameManager().getMaps().size() ) ) );
         }
-        Bukkit.broadcastMessage(
-                plugin.getPrefix() + plugin.getGameManager().getWinningMap().getName() + " by "
-                        + new ListBuilder<String>( plugin.getGameManager().getWinningMap().getAuthors(),
-                        " & " ).toString() + " won voting!" );
+        Bukkit.broadcastMessage( ChatColor.YELLOW + map.getName() + " by " + map.getAuthorsAsString() + " won voting! Loading map..." );
 
-        File file = new File( "/home/thedenmc_gmail_com/SW-1/" + plugin.getGameManager().getWinningMap() );
-
-        try
-        {
-            FileUtils.copyDirectory( plugin.getGameManager().getWinningMap().getMapFile(), file );
-        } catch ( IOException e )
-        {
-            e.printStackTrace();
-        }
-        Bukkit.createWorld( new WorldCreator( plugin.getGameManager().getWinningMap().toString() ) );
-        plugin.getConfiguration().setSpawnLocations( plugin.getGameManager().getWinningMap().toString() );
-        //SET GAME SETTINGS
-        //Teleportation to Arena!
-        Player[] players = Bukkit.getOnlinePlayers().toArray(
-                new Player[ Bukkit.getOnlinePlayers().size() ] );
-        Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        new FileUtil( plugin.getGameManager().getWinningMap().getMapFile() ).copyTo( new File( plugin.getServer().getWorldContainer(),
+                plugin.getGameManager().getWinningMap().getName() ) );
+        Bukkit.createWorld( new WorldCreator( plugin.getGameManager().getWinningMap().getName() ).generator( new VoidGeneratorGenerator() ) );
+        Player[] players = Bukkit.getOnlinePlayers().toArray( new Player[ Bukkit.getOnlinePlayers().size() ] );
+        List<SkyWarsLocation> spawnLocations = new ArrayList<>( Arrays.asList( plugin.getGameManager().getWinningMap().getSpawnLocations() ) );
+        Collections.shuffle( spawnLocations, plugin.getGameManager().getRandom() );
         for ( int i = 0; i < Bukkit.getOnlinePlayers().size(); i++ )
         {
             Player player = players[ i ];
-            player.setScoreboard( scoreboard );
-            player.teleport( plugin.getConfiguration().getSpawnLocations().get( i ) );
-            player.getNearbyEntities( 6, 6, 6 ).stream().filter( entity ->
-                    !( entity instanceof Player ) ).forEach( Entity::remove );
-            player.addPotionEffect( new PotionEffect( PotionEffectType.DAMAGE_RESISTANCE, 40, 100 ) );
+            SkyWarsPlayer skyWarsPlayer = plugin.getGameManager().getPlayer( player );
+            skyWarsPlayer.setGameBoard( new GameBoard( plugin, player ) );
+            SkyWarsLocation skyWarsLocation = spawnLocations.get( plugin.getGameManager().getRandom().nextInt( spawnLocations.size() ) );
+            Location location = skyWarsLocation.toBukkitLocation();
+            spawnLocations.remove( skyWarsLocation );
+            skyWarsPlayer.setSpawnLocation( location );
+            player.teleport( location );
         }
+    }
+
+    @Override
+    public int getCountdown()
+    {
+        return countdown;
     }
 }

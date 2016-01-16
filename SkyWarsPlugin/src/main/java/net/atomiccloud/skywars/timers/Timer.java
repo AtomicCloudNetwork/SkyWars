@@ -1,5 +1,8 @@
 package net.atomiccloud.skywars.timers;
 
-public interface Timer
+import org.bukkit.scheduler.BukkitRunnable;
+
+public abstract class Timer extends BukkitRunnable
 {
+    public abstract int getCountdown();
 }

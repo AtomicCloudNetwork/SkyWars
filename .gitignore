@@ -1,9 +1,8 @@
-# Intellij #
+# IntelliJ #
 .idea/
+*.iml
+# Maven #
 out/
 target/
-SkyWars.iml
-SkyWars-Loader/SkyWars-Loader.iml
-SkyWarsPlugin/SkyWarsPlugin.iml
 
 

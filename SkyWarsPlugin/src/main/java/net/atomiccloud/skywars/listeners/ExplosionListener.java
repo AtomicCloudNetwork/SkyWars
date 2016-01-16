@@ -24,6 +24,11 @@ public class ExplosionListener implements Listener
         {
             event.blockList().clear();
         }
+
+        if ( !plugin.getGameManager().getGameState().isPvp() )
+        {
+            event.setCancelled( true );
+        }
     }
 
     @EventHandler
@@ -32,6 +37,11 @@ public class ExplosionListener implements Listener
         if ( !plugin.getGameManager().getGameState().equals( GameState.IN_GAME ) )
         {
             event.blockList().clear();
+        }
+
+        if ( !plugin.getGameManager().getGameState().isPvp() )
+        {
+            event.setCancelled( true );
         }
     }
 }

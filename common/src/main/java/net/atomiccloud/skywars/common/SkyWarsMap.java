@@ -16,12 +16,41 @@ public class SkyWarsMap
     private static Joiner joiner = Joiner.on( " & " );
 
 
+    public SkyWarsMap()
+    {
+    }
+
     public SkyWarsMap(String name, SkyWarsLocation[] spawnLocations, List<SkyWarsChest>[] chests, String... authors)
     {
         this.name = name;
         this.spawnLocations = spawnLocations;
         this.chests = chests;
         this.authors = authors;
+    }
+
+    public void setMapFile(File mapFile)
+    {
+        this.mapFile = mapFile;
+    }
+
+    public void setAuthors(String[] authors)
+    {
+        this.authors = authors;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public void setSpawnLocations(SkyWarsLocation[] spawnLocations)
+    {
+        this.spawnLocations = spawnLocations;
+    }
+
+    public void setChests(List<SkyWarsChest>[] chests)
+    {
+        this.chests = chests;
     }
 
     public String getName()
@@ -39,7 +68,7 @@ public class SkyWarsMap
         return joiner.join( authors );
     }
 
-    public Location[] getSpawnLocations()
+    public SkyWarsLocation[] getSpawnLocations()
     {
         return spawnLocations;
     }

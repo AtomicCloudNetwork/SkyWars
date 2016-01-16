@@ -1,5 +1,6 @@
 package net.atomiccloud.skywars.util;
 
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -61,40 +62,24 @@ public class Title
         }
     }
 
-    public Title()
-    {
-        fadeIn = 20;
-        stay = 40;
-        fadeOut = 20;
-    }
-
     public Title(String title, String subtitle)
     {
 
         this.title = title;
-        this.subtitle = subtitle;
+        this.subtitle = ChatColor.translateAlternateColorCodes( '&', subtitle );
         fadeIn = 20;
-        stay = 40;
+        stay = 20;
         fadeOut = 20;
-    }
-
-    public Title(String title, String subtitle, int fadeIn, int stay, int fadeOut)
-    {
-        this.title = title;
-        this.subtitle = subtitle;
-        this.fadeIn = fadeIn;
-        this.stay = stay;
-        this.fadeOut = fadeOut;
     }
 
     public void setTitle(String title)
     {
-        this.title = title;
+        this.title = ChatColor.translateAlternateColorCodes( '&', title );
     }
 
     public void setSubtitle(String subtitle)
     {
-        this.subtitle = subtitle;
+        this.subtitle = ChatColor.translateAlternateColorCodes( '&', subtitle );
     }
 
     public void setFadeIn(int fadeIn)

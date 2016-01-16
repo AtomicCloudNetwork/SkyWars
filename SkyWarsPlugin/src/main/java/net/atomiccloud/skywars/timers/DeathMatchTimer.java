@@ -1,24 +1,23 @@
 package net.atomiccloud.skywars.timers;
 
 import net.atomiccloud.skywars.SkyWarsPlugin;
+import net.atomiccloud.skywars.game.GameState;
 import net.atomiccloud.skywars.listeners.MoveListener;
 import net.atomiccloud.skywars.util.BungeeCord;
+import net.atomiccloud.skywars.util.Util;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
+import org.bukkit.entity.Wither;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.awt.*;
-import java.lang.reflect.Method;
-
-public class DeathMatchTimer extends BukkitRunnable
+public class DeathMatchTimer extends Timer
 {
     private SkyWarsPlugin plugin;
 
-    private int countdown = 130;
+    private int countdown = 250;
 
     private MoveListener listener;
 
@@ -33,55 +32,40 @@ public class DeathMatchTimer extends BukkitRunnable
     @Override
     public void run()
     {
+        plugin.getGameManager().getPlayers().forEach( skyWarsPlayer -> skyWarsPlayer.getGameBoard().setScore( 10, "&a"
+                + GameState.values()[ plugin.getGameManager().getGameState().ordinal() + 1 ].getName()
+                + " " + Util.formatTime( plugin.getGameManager().getCurrentTimer().getCountdown(), true ) ) );
         for ( Player player : Bukkit.getOnlinePlayers() ) player.setLevel( countdown );
         switch ( countdown )
         {
-            case 130:
-                broadcastStart();
+            case 250:
+            case 245:
+            case 244:
+            case 243:
+            case 242:
+            case 241:
+                Bukkit.broadcastMessage( ChatColor.YELLOW + "Death match starting in " + ChatColor.RED + Util.formatTime( countdown - 120, false ) );
                 break;
-            case 125:
-                broadcastStart();
-                break;
-            case 124:
-                broadcastStart();
-                break;
-            case 123:
-                broadcastStart();
-                break;
-            case 122:
-                broadcastStart();
-                break;
+            case 240:
+                HandlerList.unregisterAll( listener );
+                Bukkit.broadcastMessage( ChatColor.YELLOW + "Death match started!" );
+            case 180:
             case 121:
-                broadcastStart();
+                spawnWither();
                 break;
             case 120:
-                unregisterEvents( listener, plugin );
-                Bukkit.broadcastMessage( plugin.getPrefix() + "Death match started!" );
-                break;
             case 60:
-                broadcastEnd();
-                break;
             case 30:
-                broadcastEnd();
-                break;
             case 10:
-                broadcastEnd();
-                break;
             case 5:
-                broadcastEnd();
-                break;
             case 4:
-                broadcastEnd();
-                break;
             case 3:
-                broadcastEnd();
-                break;
             case 2:
                 broadcastEnd();
                 break;
             case 1:
                 broadcastEnd();
-                Bukkit.getOnlinePlayers().forEach( BungeeCord::toHub );
+                Bukkit.getOnlinePlayers().forEach( new BungeeCord( plugin )::toLobby );
                 break;
             case 0:
                 Bukkit.shutdown();
@@ -90,47 +74,23 @@ public class DeathMatchTimer extends BukkitRunnable
         countdown--;
     }
 
-    private void broadcastStart()
-    {
-        Bukkit.broadcastMessage( countdown == 1 ? plugin.getPrefix() + "Death match starting in "
-                + ( countdown - 120 ) + " second!"
-                : plugin.getPrefix() + "Death match starting in " + ( countdown - 120 ) + " seconds!" );
-    }
-
     private void broadcastEnd()
     {
-        Bukkit.broadcastMessage( countdown == 1 ? plugin.getPrefix() + "Death match ending in " + countdown + "second!"
-                : plugin.getPrefix() + "Death match ending in " + countdown + " seconds!" );
+        Bukkit.broadcastMessage( ChatColor.YELLOW + "Death match ending in " + ChatColor.RED + Util.formatTime( countdown, false ) );
     }
 
-    @SuppressWarnings("unchecked")
-    private static void unregisterEvents(Listener listener, Plugin plugin)
+    @Override
+    public int getCountdown()
     {
-        try
-        {
-            for ( Method method : listener.getClass().getMethods() )
-            {
-                if ( method.getAnnotation( EventHandler.class ) != null )
-                {
-                    unregisterEvent( (Class<? extends Event>) method.getParameterTypes()[ 0 ], listener, plugin );
-                    break;
-                }
-            }
-        } catch ( Exception ignored )
-        {
-        }
+        return countdown;
     }
 
-    private static void unregisterEvent(Class<? extends Event> eventClass, Listener listener, Plugin plugin)
+
+    private void spawnWither()
     {
-        HandlerList.getRegisteredListeners( plugin ).stream().filter( regListener -> regListener.getListener() ==
-                listener ).forEach( regListener -> {
-            try
-            {
-                ( (HandlerList) eventClass.getMethod( "getHandlerList" ).invoke( null ) ).unregister( regListener );
-            } catch ( Exception ignored )
-            {
-            }
-        } );
+        World world = Bukkit.getWorld( "DeathArena" );
+        Wither wither = world.spawn( new Location( world, 0, 80, 0 ), Wither.class );
+        wither.setCustomNameVisible( true );
+        wither.setCustomName( ChatColor.RED + "Death Match" );
     }
 }

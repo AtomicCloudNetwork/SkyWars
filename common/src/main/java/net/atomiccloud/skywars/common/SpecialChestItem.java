@@ -4,15 +4,21 @@ import org.bukkit.inventory.ItemStack;
 
 public class SpecialChestItem extends ChestItem
 {
-    private float chance;
+    private double chance;
 
-    public SpecialChestItem(ItemStack item, RequiredType requiredType, float chance)
+    public SpecialChestItem(ItemStack item, RequiredType requiredType, double chance)
     {
         super( item, requiredType );
         this.chance = chance;
     }
 
-    public float getChance()
+    public SpecialChestItem(ItemStack item, RequiredType requiredType, double chance, int uses)
+    {
+        super( item, requiredType, uses );
+        this.chance = chance;
+    }
+
+    public double getChance()
     {
         return chance;
     }

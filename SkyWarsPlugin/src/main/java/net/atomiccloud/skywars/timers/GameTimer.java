@@ -1,15 +1,21 @@
 package net.atomiccloud.skywars.timers;
 
+import me.Bogdacutu.VoidGenerator.VoidGeneratorGenerator;
+import net.atomiccloud.skywars.SkyWarsPlayer;
 import net.atomiccloud.skywars.SkyWarsPlugin;
+import net.atomiccloud.skywars.Team;
 import net.atomiccloud.skywars.game.GameState;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import net.atomiccloud.skywars.util.ActionBar;
+import net.atomiccloud.skywars.util.Util;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
-public class GameTimer extends BukkitRunnable
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class GameTimer extends Timer
 {
 
     private SkyWarsPlugin plugin;
@@ -23,75 +29,49 @@ public class GameTimer extends BukkitRunnable
     @Override
     public void run()
     {
-        for ( Player player : Bukkit.getOnlinePlayers() ) player.setLevel( countdown );
+        new ActionBar( "&6Time left: &c" + Util.formatTime( countdown, true ) ).broadcast();
+        plugin.getGameManager().getPlayers().forEach( skyWarsPlayer -> skyWarsPlayer.getGameBoard().setScore( 10, "&a"
+                + GameState.values()[ plugin.getGameManager().getGameState().ordinal() + 1 ].getName()
+                + " " + Util.formatTime( plugin.getGameManager().getCurrentTimer().getCountdown(), true ) ) );
         switch ( countdown )
         {
             case 500:
-                broadcastMessage();
-                //BORDER
-                break;
             case 400:
-                broadcastMessage();
-                //BORDER
-                break;
             case 300:
-                broadcastMessage();
-                //BORDER
-                break;
             case 200:
-                broadcastMessage();
-                //BORDER
-                break;
             case 100:
-                broadcastMessage();
-                //BORDER
-                break;
             case 50:
-                broadcastMessage();
-                //BORDER
-                break;
             case 20:
-                broadcastMessage();
-                //BORDER
-                break;
             case 10:
-                broadcastMessage();
-                //BORDER
-                break;
             case 3:
-                broadcastMessage();
-                //BORDER
-                break;
             case 2:
-                broadcastMessage();
-                //BORDER
-                break;
             case 1:
-                broadcastMessage();
-                //BORDER
+                Bukkit.broadcastMessage( ChatColor.YELLOW + "Game is ending in " + ChatColor.RED + Util.formatTime( countdown, false ) );
                 break;
             case 0:
-                //STATS
-                //COSMITES
-                //START TELEPORTER COUNTDOWN
-                //BORDER
+                World world = Bukkit.createWorld( new WorldCreator( plugin.getConfiguration().getDeathMatchLocations()
+                        [ 0 ].getWorldName() ).generator( new VoidGeneratorGenerator() ) );
                 plugin.getGameManager().setGameState( GameState.DEATH_MATCH );
-                for ( int i = 0; i < plugin.getGameManager().getPlayersInGame().size(); i++ )
+                List<SkyWarsPlayer> players = plugin.getGameManager().getPlayers().stream().filter( skyWarsPlayer ->
+                        skyWarsPlayer.getTeam().equals( Team.PLAYER ) ).collect( Collectors.toList() );
+                for ( int i = 0; i < players.size(); i++ )
                 {
-                    Player player = Bukkit.getPlayer( plugin.getGameManager().getPlayersInGame().get( i ) );
+                    Player player = Bukkit.getPlayer( players.get( i ).getPlayerUuid() );
                     player.addPotionEffect( new PotionEffect(
                             PotionEffectType.DAMAGE_RESISTANCE, 20 * 10, 10, false, false ) );
-                    player.teleport( plugin.getConfiguration().getDeathMatchLocations().get( i ) );
+                    player.teleport( plugin.getConfiguration().getDeathMatchLocations()[ i ].toBukkitLocation() );
                 }
+                plugin.getGameManager().getPlayers().stream().filter( skyWarsPlayer ->
+                        skyWarsPlayer.getTeam().equals( Team.SPECTATOR ) )
+                        .forEach( skyWarsPlayer -> Bukkit.getPlayer( skyWarsPlayer.getPlayerUuid() ).teleport( new Location( world, 0, 80, 0 ) ) );
                 break;
         }
         countdown--;
     }
 
-    private void broadcastMessage()
+    @Override
+    public int getCountdown()
     {
-        Bukkit.broadcastMessage( countdown == 1 ? plugin.getPrefix() +
-                ChatColor.GOLD + "Game is ending in " + countdown + " second!" :
-                plugin.getPrefix() + ChatColor.GOLD + "Death match starting in " + countdown + " seconds!" );
+        return countdown;
     }
 }

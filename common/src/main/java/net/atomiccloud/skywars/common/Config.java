@@ -1,8 +1,5 @@
 package net.atomiccloud.skywars.common;
 
-import net.atomiccloud.skywars.common.SkyWarsLocation;
-import org.bukkit.Location;
-
 public class Config
 {
 
@@ -19,12 +16,12 @@ public class Config
         this.deathMatchLocations = deathMatchLocations;
     }
 
-    public Location getSpawnLocation()
+    public SkyWarsLocation getSpawnLocation()
     {
         return spawnLocation;
     }
 
-    public Location[] getDeathMatchLocations()
+    public SkyWarsLocation[] getDeathMatchLocations()
     {
         return deathMatchLocations;
     }
