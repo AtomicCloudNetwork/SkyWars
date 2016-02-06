@@ -1,8 +1,6 @@
 package net.atomiccloud.skywars;
 
 import com.google.gson.Gson;
-import net.atomiccloud.acndatabase.common.Database;
-import net.atomiccloud.acndatabase.common.DatabaseAPI;
 import net.atomiccloud.skywars.commands.VoteCommand;
 import net.atomiccloud.skywars.common.ChestItem;
 import net.atomiccloud.skywars.common.Config;
@@ -34,7 +32,6 @@ public class SkyWarsPlugin extends JavaPlugin
 
     private Gson gson = new Gson();
     private String prefix = ChatColor.GOLD.toString();
-    private Database database;
 
     private GameManager gameManager;
     private Config config;
@@ -50,7 +47,6 @@ public class SkyWarsPlugin extends JavaPlugin
         Bukkit.getMessenger().registerOutgoingPluginChannel( this, "BungeeCord" );
         getCommand( "vote" ).setExecutor( new VoteCommand( this ) );
         registerListeners();
-        database = DatabaseAPI.getDatabase();
     }
 
     @Override

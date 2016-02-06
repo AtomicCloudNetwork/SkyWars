@@ -9,9 +9,9 @@
     <packaging>pom</packaging>
     <version>0.69b</version>
     <modules>
-        <module>SkyWarsPlugin</module>
+        <module>skywars</module>
         <module>common</module>
-        <module>MapMaker</module>
+        <module>mapmaker</module>
     </modules>
 
     <dependencies>

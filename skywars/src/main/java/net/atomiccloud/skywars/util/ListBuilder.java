@@ -2,25 +2,38 @@ package net.atomiccloud.skywars.util;
 
 import com.google.common.base.Preconditions;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListBuilder<E>
 {
-    List<E> list = new ArrayList<>();
+    private List<E> list = new ArrayList<>();
     private String appendBy;
 
-    @SuppressWarnings("unchecked")
-    public ListBuilder(List<String> list, String appendBy)
+    public ListBuilder(String appendBy)
     {
-        if ( list != null )
-            this.list = (List<E>) list;
+        Preconditions.checkNotNull( appendBy, "appendBy can not be null!" );
         this.appendBy = appendBy;
     }
 
-    public List<E> add(E element)
+    public ListBuilder(List<E> list, String appendBy)
+    {
+        Preconditions.checkNotNull( list, "list can not be null!" );
+        Preconditions.checkNotNull( appendBy, "appendBy can not be null!" );
+        this.list = list;
+        this.appendBy = appendBy;
+    }
+
+    public ListBuilder add(E element)
     {
         list.add( element );
+        return this;
+    }
+
+    public List<E> toList()
+    {
         return list;
     }
 
@@ -28,9 +41,8 @@ public class ListBuilder<E>
     @Override
     public String toString()
     {
-        Preconditions.checkArgument( list instanceof List<String>, "..." );
         StringBuilder stringBuilder = new StringBuilder();
-        for ( String args : (List<String>) list )
+        for ( String args : ( List<String> ) list )
         {
             stringBuilder.append( args ).append( appendBy );
         }

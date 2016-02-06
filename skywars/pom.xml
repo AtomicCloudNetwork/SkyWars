@@ -17,11 +17,6 @@
             <artifactId>common</artifactId>
             <version>0.69b</version>
         </dependency>
-        <dependency>
-            <groupId>net.atomic-cloud</groupId>
-            <artifactId>ACN-Database</artifactId>
-            <version>0.25-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
 </project>
