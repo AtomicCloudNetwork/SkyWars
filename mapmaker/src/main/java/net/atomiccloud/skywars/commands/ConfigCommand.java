@@ -3,6 +3,8 @@ package net.atomiccloud.skywars.commands;
 import net.atomiccloud.skywars.MapMakerPlugin;
 import net.atomiccloud.skywars.common.Config;
 import net.atomiccloud.skywars.common.SkyWarsLocation;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,22 +33,31 @@ public class ConfigCommand implements CommandExecutor
     {
         if ( commandSender instanceof Player )
         {
-            String usage = "Usage: /config <setspawn/adddeathloc/save>";
+            String usage = ChatColor.DARK_AQUA + "Usage: /config <setspawn/adddeathmatchspawnpoint/save>";
             if ( args.length != 1 )
             {
                 commandSender.sendMessage( usage );
                 return true;
             }
 
+            Location location;
+            String locationFormatted;
             switch ( args[ 0 ].toLowerCase() )
             {
                 case "setspawn":
-                    config.setSpawnLocation( new SkyWarsLocation( ( ( Player ) commandSender ).getLocation() ) );
-                    commandSender.sendMessage( "Set spawn." );
+                    location = ( ( Player ) commandSender ).getLocation();
+                    locationFormatted = ChatColor.GREEN + String.format( "(%f,%f,%f,%f,%f)",
+                            location.getX(), location.getY(), location.getZ(), location.getPitch(), location.getYaw() );
+                    config.setSpawnLocation( new SkyWarsLocation( location ) );
+                    commandSender.sendMessage( ChatColor.DARK_GREEN + "Spawn Point was set to " + locationFormatted );
                     break;
+                case "adddeathmatchspawnpoint":
                 case "adddeathloc":
-                    deathMatchLocations.add( new SkyWarsLocation( ( ( Player ) commandSender ).getLocation() ) );
-                    commandSender.sendMessage( "added death-match location" );
+                    location = ( ( Player ) commandSender ).getLocation();
+                    locationFormatted = ChatColor.RED + String.format( "(%f,%f,%f,%f,%f)",
+                            location.getX(), location.getY(), location.getZ(), location.getPitch(), location.getYaw() );
+                    deathMatchLocations.add( new SkyWarsLocation( location ) );
+                    commandSender.sendMessage( ChatColor.DARK_RED + "Added death match spawn point at " + locationFormatted );
                     break;
                 case "save":
                     saveConfig();
