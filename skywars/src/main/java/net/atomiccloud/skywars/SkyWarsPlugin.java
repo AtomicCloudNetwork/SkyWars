@@ -2,24 +2,15 @@ package net.atomiccloud.skywars;
 
 import com.google.gson.Gson;
 import net.atomiccloud.skywars.commands.VoteCommand;
-import net.atomiccloud.skywars.common.ChestItem;
 import net.atomiccloud.skywars.common.Config;
 import net.atomiccloud.skywars.common.SkyWarsMap;
-import net.atomiccloud.skywars.common.SpecialChestItem;
 import net.atomiccloud.skywars.game.GameManager;
 import net.atomiccloud.skywars.listeners.*;
 import net.atomiccloud.skywars.util.FileUtil;
-import net.atomiccloud.skywars.util.ItemCreator;
-import net.atomiccloud.skywars.util.PotionCreator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.Potion;
-import org.bukkit.potion.PotionType;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,7 +34,6 @@ public class SkyWarsPlugin extends JavaPlugin
         gameManager = new GameManager( this );
         handleMaps();
         getGameManager().selectMaps();
-        setItems();
         Bukkit.getMessenger().registerOutgoingPluginChannel( this, "BungeeCord" );
         getCommand( "vote" ).setExecutor( new VoteCommand( this ) );
         registerListeners();
@@ -71,7 +61,7 @@ public class SkyWarsPlugin extends JavaPlugin
         }
     }
 
-    private void setItems()
+   /*private void setItems()
     {
         getGameManager().setItems( new ChestItem[]{
                 createItem( Material.IRON_HELMET, ChestItem.RequiredType.HELMET ),
@@ -143,7 +133,6 @@ public class SkyWarsPlugin extends JavaPlugin
                 createItem( Material.STONE, 64, 6 ),
                 createItem( Material.WOOD, 64, 6 ),
                 new SpecialChestItem( new ItemCreator( Material.BOW ).enchant( Enchantment.ARROW_KNOCKBACK, 2 ).toItemStack(), null, 0.50D, 3 ),
-                // new SpecialChestItem( new ItemCreator( Material.BOW ).enchant( Enchantment.ARROW_FIRE, 1 ).toItemStack(), null, 0.20D, 2 ),
                 new SpecialChestItem( new ItemCreator( Material.DIAMOND_SWORD ).name( "Atomic Sword" ).enchant( Enchantment.DAMAGE_ALL, 1 )
                         .enchant( Enchantment.FIRE_ASPECT, 2 ).toItemStack(), null, 0.50D, 3 ),
                 createItem( new ItemCreator( Material.DIAMOND_SWORD ).enchant( Enchantment.DAMAGE_ALL, 1 ).toItemStack(), 4 ),
@@ -174,7 +163,7 @@ public class SkyWarsPlugin extends JavaPlugin
     private ChestItem createItem(Material item, ChestItem.RequiredType requiredType)
     {
         return new ChestItem( new ItemStack( item, 1 ), requiredType );
-    }
+    }*/
 
     public void saveDefaultConfig()
     {
@@ -207,6 +196,11 @@ public class SkyWarsPlugin extends JavaPlugin
         {
             e.printStackTrace();
         }
+    }
+
+    public Config getCustomConfig()
+    {
+        return config;
     }
 
     private void handleMaps()

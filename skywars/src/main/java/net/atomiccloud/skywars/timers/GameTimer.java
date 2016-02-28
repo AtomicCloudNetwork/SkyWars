@@ -49,8 +49,8 @@ public class GameTimer extends Timer
                 Bukkit.broadcastMessage( ChatColor.YELLOW + "Game is ending in " + ChatColor.RED + Util.formatTime( countdown, false ) );
                 break;
             case 0:
-                World world = Bukkit.createWorld( new WorldCreator( plugin.getConfiguration().getDeathMatchLocations()
-                        [ 0 ].getWorldName() ).generator( new VoidGeneratorGenerator() ) );
+                World world = Bukkit.createWorld( new WorldCreator( plugin.getConfiguration()
+                        .getDeathMatchLocations()[ 0 ].getWorldName() ).generator( new VoidGeneratorGenerator() ) );
                 plugin.getGameManager().setGameState( GameState.DEATH_MATCH );
                 List<SkyWarsPlayer> players = plugin.getGameManager().getPlayers().stream().filter( skyWarsPlayer ->
                         skyWarsPlayer.getTeam().equals( Team.PLAYER ) ).collect( Collectors.toList() );

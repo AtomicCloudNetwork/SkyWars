@@ -24,5 +24,712 @@
       "pitch": 0.0,
       "yaw": 0.0
     }
+  ],
+  "normalChestItems": [
+    {
+      "item": {
+        "type": 306,
+        "amount": 1,
+        "durability": 0
+      },
+      "requiredType": "HELMET",
+      "uses": 1,
+      "currentUses": 0
+    },
+    {
+      "item": {
+        "type": 307,
+        "amount": 1,
+        "durability": 0
+      },
+      "requiredType": "CHEST_PLATE",
+      "uses": 1,
+      "currentUses": 0
+    },
+    {
+      "item": {
+        "type": 308,
+        "amount": 1,
+        "durability": 0
+      },
+      "requiredType": "LEGGINGS",
+      "uses": 1,
+      "currentUses": 0
+    },
+    {
+      "item": {
+        "type": 309,
+        "amount": 1,
+        "durability": 0
+      },
+      "requiredType": "BOOTS",
+      "uses": 1,
+      "currentUses": 0
+    },
+    {
+      "item": {
+        "type": 307,
+        "amount": 1,
+        "durability": 0
+      },
+      "requiredType": "CHEST_PLATE",
+      "uses": 1,
+      "currentUses": 0
+    },
+    {
+      "item": {
+        "type": 310,
+        "amount": 1,
+        "durability": 0
+      },
+      "requiredType": "HELMET",
+      "uses": 1,
+      "currentUses": 0
+    },
+    {
+      "item": {
+        "type": 311,
+        "amount": 1,
+        "durability": 0
+      },
+      "requiredType": "CHEST_PLATE",
+      "uses": 1,
+      "currentUses": 0
+    },
+    {
+      "item": {
+        "type": 312,
+        "amount": 1,
+        "durability": 0
+      },
+      "requiredType": "LEGGINGS",
+      "uses": 1,
+      "currentUses": 0
+    },
+    {
+      "item": {
+        "type": 313,
+        "amount": 1,
+        "durability": 0
+      },
+      "requiredType": "BOOTS",
+      "uses": 1,
+      "currentUses": 0
+    },
+    {
+      "item": {
+        "type": 311,
+        "amount": 1,
+        "durability": 0
+      },
+      "requiredType": "CHEST_PLATE",
+      "uses": 1,
+      "currentUses": 0
+    },
+    {
+      "item": {
+        "type": 276,
+        "amount": 1,
+        "durability": 0
+      },
+      "requiredType": "SWORD",
+      "uses": 1,
+      "currentUses": 0
+    },
+    {
+      "item": {
+        "type": 267,
+        "amount": 1,
+        "durability": 0
+      },
+      "requiredType": "SWORD",
+      "uses": 1,
+      "currentUses": 0
+    },
+    {
+      "item": {
+        "type": 276,
+        "amount": 1,
+        "durability": 0,
+        "meta": {
+          "enchantments": {
+            "Enchantment[16, DAMAGE_ALL]": 1
+          },
+          "repairCost": 0,
+          "hideFlag": 0,
+          "unhandledTags": {}
+        }
+      },
+      "requiredType": "SWORD",
+      "uses": 12,
+      "currentUses": 12
+    },
+    {
+      "item": {
+        "type": 364,
+        "amount": 16,
+        "durability": 0
+      },
+      "requiredType": "FOOD",
+      "uses": 1,
+      "currentUses": 0
+    },
+    {
+      "item": {
+        "type": 261,
+        "amount": 1,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 262,
+        "amount": 6,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 262,
+        "amount": 10,
+        "durability": 0
+      },
+      "uses": 3,
+      "currentUses": 3
+    },
+    {
+      "item": {
+        "type": 261,
+        "amount": 1,
+        "durability": 0,
+        "meta": {
+          "enchantments": {
+            "Enchantment[48, ARROW_DAMAGE]": 1
+          },
+          "repairCost": 0,
+          "hideFlag": 0,
+          "unhandledTags": {}
+        }
+      },
+      "uses": 1,
+      "currentUses": 0
+    },
+    {
+      "item": {
+        "type": 332,
+        "amount": 16,
+        "durability": 0
+      },
+      "uses": 1,
+      "currentUses": 1
+    },
+    {
+      "item": {
+        "type": 344,
+        "amount": 16,
+        "durability": 0
+      },
+      "uses": 1,
+      "currentUses": 1
+    },
+    {
+      "item": {
+        "type": 373,
+        "amount": 1,
+        "durability": 16385
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 373,
+        "amount": 1,
+        "durability": 16386
+      },
+      "uses": 3,
+      "currentUses": 3
+    },
+    {
+      "item": {
+        "type": 373,
+        "amount": 3,
+        "durability": 16389
+      },
+      "uses": 1,
+      "currentUses": 1
+    },
+    {
+      "item": {
+        "type": 5,
+        "amount": 16,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 5,
+        "amount": 8,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 1,
+        "amount": 16,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 1,
+        "amount": 8,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 326,
+        "amount": 1,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 327,
+        "amount": 1,
+        "durability": 0
+      },
+      "uses": 1,
+      "currentUses": 1
+    },
+    {
+      "item": {
+        "type": 278,
+        "amount": 1,
+        "durability": 0
+      },
+      "uses": 3,
+      "currentUses": 3
+    },
+    {
+      "item": {
+        "type": 116,
+        "amount": 1,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 384,
+        "amount": 32,
+        "durability": 0
+      },
+      "uses": 3,
+      "currentUses": 3
+    },
+    {
+      "item": {
+        "type": 30,
+        "amount": 3,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 280,
+        "amount": 8,
+        "durability": 0
+      },
+      "uses": 4,
+      "currentUses": 4
+    },
+    {
+      "item": {
+        "type": 264,
+        "amount": 2,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 265,
+        "amount": 2,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 46,
+        "amount": 8,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 46,
+        "amount": 10,
+        "durability": 0
+      },
+      "uses": 1,
+      "currentUses": 1
+    },
+    {
+      "item": {
+        "type": 279,
+        "amount": 1,
+        "durability": 0
+      },
+      "uses": 1,
+      "currentUses": 1
+    },
+    {
+      "item": {
+        "type": 346,
+        "amount": 1,
+        "durability": 0
+      },
+      "uses": 3,
+      "currentUses": 3
+    },
+    {
+      "item": {
+        "type": 373,
+        "amount": 1,
+        "durability": 3
+      },
+      "uses": 3,
+      "currentUses": 3
+    }
+  ],
+  "centerChestItems": [
+    {
+      "item": {
+        "type": 373,
+        "amount": 1,
+        "durability": 16395
+      },
+      "uses": 3,
+      "currentUses": 3
+    },
+    {
+      "item": {
+        "type": 373,
+        "amount": 1,
+        "durability": 16396
+      },
+      "uses": 3,
+      "currentUses": 3
+    },
+    {
+      "chance": 0.1,
+      "item": {
+        "type": 348,
+        "amount": 1,
+        "durability": 0,
+        "meta": {
+          "displayName": "Dustify",
+          "enchantments": {
+            "Enchantment[19, KNOCKBACK]": 10
+          },
+          "repairCost": 0,
+          "hideFlag": 0,
+          "unhandledTags": {}
+        }
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 322,
+        "amount": 8,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 322,
+        "amount": 6,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 322,
+        "amount": 3,
+        "durability": 0
+      },
+      "uses": 4,
+      "currentUses": 4
+    },
+    {
+      "item": {
+        "type": 278,
+        "amount": 1,
+        "durability": 0,
+        "meta": {
+          "enchantments": {
+            "Enchantment[32, DIG_SPEED]": 3
+          },
+          "repairCost": 0,
+          "hideFlag": 0,
+          "unhandledTags": {}
+        }
+      },
+      "uses": 3,
+      "currentUses": 3
+    },
+    {
+      "item": {
+        "type": 332,
+        "amount": 64,
+        "durability": 0
+      },
+      "uses": 4,
+      "currentUses": 4
+    },
+    {
+      "item": {
+        "type": 344,
+        "amount": 64,
+        "durability": 0
+      },
+      "uses": 4,
+      "currentUses": 4
+    },
+    {
+      "item": {
+        "type": 46,
+        "amount": 20,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 30,
+        "amount": 6,
+        "durability": 0
+      },
+      "uses": 3,
+      "currentUses": 3
+    },
+    {
+      "item": {
+        "type": 368,
+        "amount": 8,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 368,
+        "amount": 3,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 368,
+        "amount": 1,
+        "durability": 0
+      },
+      "uses": 4,
+      "currentUses": 4
+    },
+    {
+      "item": {
+        "type": 259,
+        "amount": 1,
+        "durability": 0
+      },
+      "uses": 3,
+      "currentUses": 3
+    },
+    {
+      "item": {
+        "type": 373,
+        "amount": 1,
+        "durability": 3
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 326,
+        "amount": 1,
+        "durability": 0
+      },
+      "uses": 3,
+      "currentUses": 3
+    },
+    {
+      "item": {
+        "type": 327,
+        "amount": 1,
+        "durability": 0
+      },
+      "uses": 2,
+      "currentUses": 2
+    },
+    {
+      "item": {
+        "type": 311,
+        "amount": 1,
+        "durability": 0,
+        "meta": {
+          "enchantments": {
+            "Enchantment[0, PROTECTION_ENVIRONMENTAL]": 4
+          },
+          "repairCost": 0,
+          "hideFlag": 0,
+          "unhandledTags": {}
+        }
+      },
+      "uses": 3,
+      "currentUses": 3
+    },
+    {
+      "item": {
+        "type": 310,
+        "amount": 1,
+        "durability": 0,
+        "meta": {
+          "enchantments": {
+            "Enchantment[0, PROTECTION_ENVIRONMENTAL]": 4
+          },
+          "repairCost": 0,
+          "hideFlag": 0,
+          "unhandledTags": {}
+        }
+      },
+      "uses": 3,
+      "currentUses": 3
+    },
+    {
+      "item": {
+        "type": 261,
+        "amount": 1,
+        "durability": 0,
+        "meta": {
+          "enchantments": {
+            "Enchantment[48, ARROW_DAMAGE]": 5
+          },
+          "repairCost": 0,
+          "hideFlag": 0,
+          "unhandledTags": {}
+        }
+      },
+      "uses": 1,
+      "currentUses": 0
+    },
+    {
+      "item": {
+        "type": 1,
+        "amount": 64,
+        "durability": 0
+      },
+      "uses": 6,
+      "currentUses": 6
+    },
+    {
+      "item": {
+        "type": 5,
+        "amount": 64,
+        "durability": 0
+      },
+      "uses": 6,
+      "currentUses": 6
+    },
+    {
+      "chance": 0.5,
+      "item": {
+        "type": 261,
+        "amount": 1,
+        "durability": 0,
+        "meta": {
+          "enchantments": {
+            "Enchantment[49, ARROW_KNOCKBACK]": 2
+          },
+          "repairCost": 0,
+          "hideFlag": 0,
+          "unhandledTags": {}
+        }
+      },
+      "uses": 3,
+      "currentUses": 3
+    },
+    {
+      "chance": 0.5,
+      "item": {
+        "type": 276,
+        "amount": 1,
+        "durability": 0,
+        "meta": {
+          "displayName": "Atomic Sword",
+          "enchantments": {
+            "Enchantment[16, DAMAGE_ALL]": 1,
+            "Enchantment[20, FIRE_ASPECT]": 2
+          },
+          "repairCost": 0,
+          "hideFlag": 0,
+          "unhandledTags": {}
+        }
+      },
+      "uses": 3,
+      "currentUses": 3
+    },
+    {
+      "item": {
+        "type": 276,
+        "amount": 1,
+        "durability": 0,
+        "meta": {
+          "enchantments": {
+            "Enchantment[16, DAMAGE_ALL]": 1
+          },
+          "repairCost": 0,
+          "hideFlag": 0,
+          "unhandledTags": {}
+        }
+      },
+      "uses": 4,
+      "currentUses": 4
+    }
   ]
 }

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>SkyWars</artifactId>
         <groupId>net.atomic-cloud</groupId>
-        <version>0.69b</version>
+        <version>0.72b</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

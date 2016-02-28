@@ -8,6 +8,7 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,13 +16,14 @@ public class GameBoard
 {
     private Scoreboard scoreboard;
     private Map<Integer, String> scores = new HashMap<>();
+    private static boolean initialized;
 
     public GameBoard(SkyWarsPlugin plugin, Player player)
     {
         scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective sideBar = scoreboard.registerNewObjective( "sideBar", "dummy" );
         sideBar.setDisplaySlot( DisplaySlot.SIDEBAR );
-        setScore( 1, "mc.atomic-cloud.net" );
+        setScore( 1, "0oOo0" );
         setScore( 2, "&0" );
         setScore( 3, "Mode: &aSolo" );
         setScore( 4, "Map: &a" + plugin.getGameManager().getWinningMap().getName() );
@@ -35,11 +37,21 @@ public class GameBoard
         setScore( 11, "Next Event:" );
         setScore( 12, "&4" );
         sideBar.setDisplayName( ChatColor.GOLD.toString() + ChatColor.BOLD + "SKYWARS" );
-        Objective bellowName = scoreboard.registerNewObjective( "bellowName", "health" );
-        bellowName.setDisplaySlot( DisplaySlot.BELOW_NAME );
-        bellowName.setDisplayName( ChatColor.RED + "❤" );
         player.setScoreboard( scoreboard );
-        Bukkit.getOnlinePlayers().forEach( online -> online.setHealth( online.getHealth() - 1 ) );
+        if ( !initialized )
+        {
+            startTask( plugin );
+            initialized = true;
+        }
+    }
+
+    private void startTask(SkyWarsPlugin plugin)
+    {
+        plugin.getServer().getScheduler().runTaskTimer( plugin, () ->
+                plugin.getGameManager().getPlayers().forEach( skyWarsPlayer -> {
+                    ChatColor nextColor = Arrays.asList( ChatColor.values() ).stream().filter( ChatColor::isColor ).findAny().get();
+                    skyWarsPlayer.getGameBoard().scoreboard.getObjective( nextColor.toString() + ChatColor.BOLD + "SKYWARS" );
+                } ), 0, 20 );
     }
 
     public void setScore(int position, String scoreName)
